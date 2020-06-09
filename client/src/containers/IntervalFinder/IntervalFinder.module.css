@@ -1,0 +1,84 @@
+.Content {
+  position: absolute;
+  top: 60px;
+  height: calc(100% - 60px);
+  width: 100%;
+}
+h1 {
+  margin: 5px 0 0;
+  display: flex;
+  justify-content: center;
+  color: rgb(2, 30, 57, 0.9);
+}
+.TopBar {
+  margin: 20px auto 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 900px;
+}
+.TopBtns {
+  display: flex;
+  justify-content: space-around;
+  width: 100px;
+}
+.TopBtns button {
+  background: white;
+  border: 0;
+  font-size: 30px;
+  color: rgb(2, 30, 57, 0.9);
+  cursor: pointer;
+  outline: 0;
+}
+.SessionStats {
+  display: flex;
+  justify-content: space-around;
+  width: 100px;
+}
+.SessionStats div {
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.CheckMark, .XIcon {
+  height: 30px;
+}
+.SessionNum {
+  margin: 0 10px;
+  font-size: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+.Intervals {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+.Intervals button {
+  border-radius: 50px;
+  margin: 10px;
+  width: 50px;
+  height: 50px;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+  border: 3px solid rgb(16, 30, 117);
+  background: white;
+  outline: none;
+}
+.ShowStart {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 5;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.HideStart {
+  display: none;
+}

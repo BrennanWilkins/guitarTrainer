@@ -1,0 +1,26 @@
+.Error {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.Error h1 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.Error a {
+  text-decoration: none;
+}
+.Error button {
+  border: 0;
+  border-radius: 3px;
+  background-color: #ccc;
+  height: 30px;
+  display: block;
+}
+.Error button:hover {
+  background-color: rgb(82, 197, 208 0.6);
+}

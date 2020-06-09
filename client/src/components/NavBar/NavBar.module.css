@@ -1,0 +1,91 @@
+.NavBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgb(2, 30, 57);
+  color: white;
+  height: 60px;
+}
+.HomeLink {
+  height: 100%;
+  padding: 0 5px;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+.AuthLinks {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  font-size: 14px;
+  cursor: default;
+  margin-right: 20px;
+}
+.AuthLinks div {
+  height: 100%;
+  padding: 0 10px;
+  margin: 0 7px;
+  display: flex;
+  align-items: center;
+}
+.AuthLinks div:hover {
+  background: rgb(35, 41, 77);
+}
+.AuthLinks a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.SideToggle {
+  width: 40px;
+  height: 70%;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  margin: 0 20px;
+}
+.SideToggle div {
+  width: 90%;
+  height: 3px;
+  background-color: white;
+}
+.LeftNavBar {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media (max-width: 700px) {
+  .AuthLinks div {
+    margin: 0;
+  }
+  .AuthLinks span {
+    display: none;
+  }
+  .HomeLink {
+    position: absolute;
+    left: calc(50% - 65px);
+  }
+}
+@media (max-width: 500px) {
+  .AuthLinks {
+    display: none;
+  }
+}

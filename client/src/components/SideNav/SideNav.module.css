@@ -1,0 +1,87 @@
+.SideNav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
+  max-width: 300px;
+  min-width: 200px;
+  height: 100%;
+  z-index: 20;
+  transition: transform 0.2s ease-out;
+  background: rgb(2, 32, 60);
+}
+.ContentLink, .AuthLink {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+.ContentLink a, .AuthLink a {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-left: 25px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+.ContentLink:hover, .AuthLink:hover {
+  background: rgb(2, 40, 75);
+}
+.HomeLink {
+  width: 100%;
+  margin: 20px 0 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(1.2);
+}
+.ShowNav {
+  transform: translateX(0);
+}
+.HideNav {
+  transform: translateX(-100%);
+}
+.ShowBackdrop {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: rgba(0,0,0,0.3);
+  width: 100%;
+  height: 100%;
+}
+.HideBackdrop {
+  display: none;
+}
+.CloseBtn {
+  float: right;
+  margin: 10px;
+  height: 25px;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  cursor: pointer;
+  border: 0;
+  border-radius: 3px;
+  background: rgb(2, 25, 47);
+  color: white;
+}
+.CloseBtn:hover {
+  background: rgb(2, 25, 30);
+}
+.CloseBtn span {
+  display: flex;
+}
+.AuthLink {
+  display: none;
+}
+@media (max-width: 500px) {
+  .AuthLink {
+    display: flex;
+  }
+}

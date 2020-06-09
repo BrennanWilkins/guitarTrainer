@@ -1,0 +1,13 @@
+.Icon a {
+  position: relative;
+  top: -5px;
+  left: 2px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+.Icon img {
+  transform: rotate(45deg);
+  height: 30px;
+  filter: invert(100%);
+}

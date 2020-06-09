@@ -1,0 +1,161 @@
+* {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+.GuitarContainer {
+  width: 1010px;
+  height: 250px;
+  margin: 10px auto;
+}
+.Guitar {
+	position: relative;
+	width: 960px;
+	height: 250px;
+  background-color: rgb(103, 80, 41);
+  background-image: url("/assets/wood.png");
+  background-size: 960px 250px;
+	box-shadow: inset -1px 0px 11px 0px rgba(0,0,0,0.75);
+  margin-left: 50px;
+}
+.OpenNotes {
+	position: absolute;
+	left: -35px;
+  height: 100%;
+}
+.OpenNotes li {
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #fff;
+  position: relative;
+}
+.OpenNotes .LowE, .OpenNotes .B, .OpenNotes .G {
+  top: -2px;
+}
+.OpenNotes .A {
+  top: 4px;
+}
+.OpenNotes .HighE {
+  top: 5px;
+}
+.Fret {
+	float: left;
+	width: 3px;
+	height: 250px;
+	background: #d7d6d6;
+	margin-left: 75px;
+	border-right: 2px solid #686868;
+}
+.First {
+	position: absolute;
+	width: 50px;
+	left: -52px;
+	top: 0;
+	margin-left: 0;
+	background: #211f1d;
+}
+.Dots {
+	position: absolute;
+	width: 642px;
+	height: 20px;
+	top: 45%;
+	left: 19.5%;
+}
+.Dots li {
+  float: left;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #383530;
+  margin-right: 140px;
+}
+.Strings {
+	position: absolute;
+	left: 0;
+	top: 10px;
+	width: 960px;
+	height: 250px;
+}
+.Strings li {
+  display: inline-block;
+  width: 100%;
+  background: #c8bb93;
+  margin-bottom: 38px;
+  border-bottom: 2px solid #958963;
+  box-sizing: border-box;
+}
+.Strings li:nth-child(1) {
+  height: 1px;
+  border-bottom: 2px solid #aba698;
+}
+.Strings li:nth-child(2) {
+  height: 2px;
+  border-bottom: 2px solid #aba698;
+}
+.Strings li:nth-child(3) {
+  height: 3px;
+}
+.Strings li:nth-child(4) {
+  height: 4px;
+}
+.Strings li:nth-child(5) {
+  height: 5px;
+}
+.Strings li:nth-child(6) {
+  height: 6px;
+}
+.Notes {
+	position: absolute;
+	left: 17px;
+	top: -7px;
+	width: 960px;
+	height: 258px;
+}
+.Mask {
+	position: absolute;
+	right: -189px;
+	bottom: 0;
+	width: 1184px;
+	height: 30px;
+}
+.Mask ul {
+  position: relative;
+  float: left;
+}
+.Mask li {
+	float: left;
+	width: 30px;
+	height: 30px;
+	margin-right: 50px;
+	background: #fa990f;
+	color: #fff;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 30px;
+	box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
+}
+.ANotes {
+  bottom: 47px;
+}
+.DNotes {
+  bottom: 93px;
+}
+.GNotes {
+  bottom: 137px;
+}
+.BNotes {
+  bottom: 181px;
+}
+.HighENotes {
+  bottom: 224px;
+}
+@media (max-width: 1050px) {
+  .Guitar {
+    transform: scale(0.9);
+  }
+}
+@media (max-width: 1000px) {
+  .Guitar {
+    transform: scale(0.8);
+  }
+}
