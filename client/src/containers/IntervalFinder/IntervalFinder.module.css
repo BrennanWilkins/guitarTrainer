@@ -3,6 +3,7 @@
   top: 60px;
   height: calc(100% - 60px);
   width: 100%;
+  overflow-x: hidden;
 }
 h1 {
   margin: 5px 0 0;
@@ -20,7 +21,7 @@ h1 {
 .TopBtns {
   display: flex;
   justify-content: space-around;
-  width: 100px;
+  width: 150px;
 }
 .TopBtns button {
   background: white;
@@ -33,7 +34,7 @@ h1 {
 .SessionStats {
   display: flex;
   justify-content: space-around;
-  width: 100px;
+  width: 150px;
 }
 .SessionStats div {
   font-size: 30px;
@@ -56,7 +57,7 @@ h1 {
   display: flex;
   justify-content: center;
 }
-.Intervals button {
+.IntEnabled {
   border-radius: 50px;
   margin: 10px;
   width: 50px;
@@ -65,20 +66,149 @@ h1 {
   font-size: 20px;
   cursor: pointer;
   border: 3px solid rgb(16, 30, 117);
-  background: white;
+  background: rgb(16, 30, 117, 0.1);
   outline: none;
 }
-.ShowStart {
+.IntDisabled {
+  display: none;
+}
+.IntEnabled:hover {
+  background: rgb(16, 30, 117, 0.3);
+}
+.ShowStart, .ShowSettings {
   position: absolute;
   top: 0;
   height: 100%;
   width: 100%;
   z-index: 5;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.HideStart {
+.ExampleTitle {
+  color: white;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.ArrowUp {
+  color: white;
+  position: absolute;
+  top: 100px;
+  left: 450px;
+  font-size: 32px;
+}
+.RepeatText {
+  color: white;
+  position: absolute;
+  top: 140px;
+  left: 415px;
+  font-size: 14px;
+}
+.StartBtn {
+  cursor: pointer;
+  width: 110px;
+  height: 40px;
+  border-radius: 3px;
+  border: 0;
+  box-shadow: 0 1px 10px 0 rgba(0,0,0,0.75);
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.StartBtn:hover {
+  background: #ddd;
+}
+.RootExample button, .TargetExample button {
+  width: 30px;
+	height: 30px;
+	color: #fff;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 30px;
+	box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
+  cursor: default;
+  border: 0;
+  background: rgb(23, 27, 130);
+  font-size: 16px;
+}
+.TargetExample, .RootExample {
+  width: 200px;
+  color: white;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  position: relative;
+  left: -15px;
+}
+.TargetExample button {
+  background: rgb(150, 38, 13);
+  position: relative;
+  left: 5px;
+}
+.RootExample span {
+  position: relative;
+  left: 30px;
+  top: -2px;
+  font-size: 16px;
+}
+.TargetExample span {
+  position: relative;
+  left: 35px;
+  top: -2px;
+  font-size: 16px;
+}
+.HideStart, .HideSettings {
   display: none;
+}
+.SettingsDiv {
+  width: 500px;
+  height: 250px;
+  background: white;
+  box-shadow: 0 1px 10px 0 rgba(0,0,0,0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 3px;
+}
+.SettingsTop {
+  width: 100%;
+}
+.SettingsTitle {
+  color: rgb(2, 30, 57, 0.9);
+  font-size: 16px;
+  font-weight: bold;
+}
+.SettingsIntervals {
+  margin-top: 10px;
+  width: 60%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+.SettingIntEnabled {
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1.5px solid rgb(16, 30, 117);
+  background: rgb(16, 30, 117, 0.1);
+  outline: none;
+  width: 35px;
+  height: 35px;
+  margin: 5px;
+}
+.SettingIntDisabled {
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1.5px solid #ddd;
+  background: rgb(0, 0, 0, 0.1);
+  outline: none;
+  width: 35px;
+  height: 35px;
+  margin: 5px;
 }

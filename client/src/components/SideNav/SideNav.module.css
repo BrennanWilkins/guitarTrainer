@@ -56,27 +56,6 @@
 .HideBackdrop {
   display: none;
 }
-.CloseBtn {
-  float: right;
-  margin: 10px;
-  height: 25px;
-  width: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  cursor: pointer;
-  border: 0;
-  border-radius: 3px;
-  background: rgb(2, 25, 47);
-  color: white;
-}
-.CloseBtn:hover {
-  background: rgb(2, 25, 30);
-}
-.CloseBtn span {
-  display: flex;
-}
 .AuthLink {
   display: none;
 }

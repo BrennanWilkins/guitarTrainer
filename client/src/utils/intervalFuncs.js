@@ -48,8 +48,15 @@ export const getRandNotes = () => {
 };
 
 // return random notes & their interval
-export const generateInterval = () => {
-  const [note1, note2] = getRandNotes();
-  const interval = calcInterval(note1, note2);
+// takes optional disabledIntervals which includes intervals not to use
+export const generateInterval = (disabledIntervals) => {
+  let [note1, note2] = getRandNotes();
+  let interval = calcInterval(note1, note2);
+  if (disabledIntervals.length > 0) {
+    while (disabledIntervals.includes(interval)) {
+      [note1, note2] = getRandNotes();
+      interval = calcInterval(note1, note2);
+    }
+  }
   return [note1, note2, interval];
 };

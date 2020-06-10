@@ -1,6 +1,5 @@
 import React from 'react';
 import classes from './Guitar.module.css';
-import { notes } from '../../utils/intervalFuncs';
 
 const Guitar = props => (
   <div className={classes.GuitarContainer}>
@@ -40,46 +39,82 @@ const Guitar = props => (
   			<li className={classes.A}>A</li>
   			<li className={classes.HighE}>E</li>
   		</ul>
-      <div className={classes.Notes}>
-  			<div className={[classes.Mask, classes.LowENotes].join(' ')}>
+      <div className={classes.NoteContainer}>
+  			<div className={[classes.Notes, classes.LowENotes].join(' ')}>
           <ul>
-            {['E','F','F#','G','G#','A','A#','B','C','C#','D','D#','E'].map(note => (
-              <li>{note}</li>
+            {['ER1','F1','Gb1','G1','Ab1','A1','Bb1','B1','C1','Db1','D1','Eb1','E1'].map(note => (
+              <li key={note}
+              className={
+                props.rootNote === note ? classes.RootNote :
+                props.otherNote === note ? classes.OtherNote :
+                classes.HiddenNote}>
+                {props.rootNote === note ? 'R' : ''}
+              </li>
             ))}
           </ul>
         </div>
-  			<div className={[classes.Mask, classes.ANotes].join(' ')}>
+  			<div className={[classes.Notes, classes.ANotes].join(' ')}>
           <ul>
-            {['A','A#','B','C','C#','D','D#','E','F','F#','G','G#','A'].map(note => (
-              <li>{note}</li>
+            {['AR2','Bb2','B2','C2','Db2','D2','Eb2','E2','F2','Gb2','G2','Ab2','A2'].map(note => (
+              <li key={note}
+              className={
+                props.rootNote === note ? classes.RootNote :
+                props.otherNote === note ? classes.OtherNote :
+                classes.HiddenNote}>
+                {props.rootNote === note ? 'R' : ''}
+              </li>
             ))}
           </ul>
         </div>
-  			<div className={[classes.Mask, classes.DNotes].join(' ')}>
+  			<div className={[classes.Notes, classes.DNotes].join(' ')}>
           <ul>
-            {['D','D#','E','F','F#','G','G#','A','A#','B','C','C#','D'].map(note => (
-              <li>{note}</li>
+            {['DR3','Eb3','E3','F3','Gb3','G3','Ab3','A3','Bb3','B3','C3','Db3','D3'].map(note => (
+              <li key={note}
+              className={
+                props.rootNote === note ? classes.RootNote :
+                props.otherNote === note ? classes.OtherNote :
+                classes.HiddenNote}>
+                {props.rootNote === note ? 'R' : ''}
+              </li>
             ))}
           </ul>
         </div>
-  			<div className={[classes.Mask, classes.GNotes].join(' ')}>
+  			<div className={[classes.Notes, classes.GNotes].join(' ')}>
           <ul>
-            {['G','G#','A','A#','B','C','C#','D','D#','E','F','F#','G'].map(note => (
-              <li>{note}</li>
+            {['GR4','Ab4','A4','Bb4','B4','C4','Db4','D4','Eb4','E4','F4','Gb4','G4'].map(note => (
+              <li key={note}
+              className={
+                props.rootNote === note ? classes.RootNote :
+                props.otherNote === note ? classes.OtherNote :
+                classes.HiddenNote}>
+                {props.rootNote === note ? 'R' : ''}
+              </li>
             ))}
           </ul>
         </div>
-  			<div className={[classes.Mask, classes.BNotes].join(' ')}>
+  			<div className={[classes.Notes, classes.BNotes].join(' ')}>
           <ul>
-            {['B','C','C#','D','D#','E','F','F#','G','G#','A','A#','B'].map(note => (
-              <li>{note}</li>
+            {['BR5','C5','Db5','D5','Eb5','E5','F5','Gb5','G5','Ab5','A5','Bb5','B5'].map(note => (
+              <li key={note}
+              className={
+                props.rootNote === note ? classes.RootNote :
+                props.otherNote === note ? classes.OtherNote :
+                classes.HiddenNote}>
+                {props.rootNote === note ? 'R' : ''}
+              </li>
             ))}
           </ul>
         </div>
-  			<div className={[classes.Mask, classes.HighENotes].join(' ')}>
+  			<div className={[classes.Notes, classes.HighENotes].join(' ')}>
           <ul>
-            {['E','F','F#','G','G#','A','A#','B','C','C#','D','D#','E'].map(note => (
-              <li>{note}</li>
+            {['ER6','F6','Gb6','G6','Ab6','A6','Bb6','B6','C6','Db6','D6','Eb6','E6'].map(note => (
+              <li key={note}
+              className={
+                props.rootNote === note ? classes.RootNote :
+                props.otherNote === note ? classes.OtherNote :
+                classes.HiddenNote}>
+                {props.rootNote === note ? 'R' : ''}
+              </li>
             ))}
           </ul>
         </div>
