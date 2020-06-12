@@ -1,0 +1,530 @@
+.Content {
+  position: absolute;
+  top: 60px;
+  height: calc(100% - 60px);
+  width: 100%;
+  overflow: hidden;
+}
+.Hidden {
+  display: none;
+}
+.Title {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  color: rgb(2, 30, 57, 0.9);
+}
+.TopBar {
+  margin: 20px auto 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  max-width: 1010px;
+}
+.TopBtns {
+  display: flex;
+  justify-content: space-around;
+  width: 200px;
+}
+.TopBtns button {
+  background: white;
+  border: 0;
+  font-size: 30px;
+  color: rgb(2, 30, 57, 0.9);
+  cursor: pointer;
+  outline: 0;
+  display: flex;
+}
+.SessionStats {
+  display: flex;
+  justify-content: center;
+  width: 200px;
+}
+.SessionStats div {
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+}
+.CheckMark, .XIcon {
+  height: 30px;
+}
+.SessionNum {
+  margin: 0 10px;
+  font-size: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+.NumAnim {
+  animation: scaleUp 300ms ease-out;
+}
+@keyframes scaleUp {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.IntervalContainer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.Intervals {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.IntEnabled {
+  border-radius: 50px;
+  margin: 10px;
+  width: 50px;
+  height: 50px;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+  border: 3px solid rgb(16, 30, 117);
+  background: rgb(16, 30, 117, 0.1);
+  outline: none;
+}
+.IntDisabled {
+  display: none;
+}
+.IntEnabled:hover {
+  background: rgb(16, 30, 117, 0.3);
+}
+.ShowStart, .ShowSettings {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.StartPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 170px;
+}
+.ExampleTitle {
+  color: white;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.ArrowUp {
+  color: white;
+  font-size: 32px;
+  position: absolute;
+  z-index: 90;
+  top: 100px;
+}
+.RepeatText {
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  z-index: 90;
+  top: 135px;
+}
+.StartBtn {
+  cursor: pointer;
+  width: 110px;
+  height: 40px;
+  border-radius: 3px;
+  border: 0;
+  box-shadow: 0 1px 10px 0 rgba(0,0,0,0.75);
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.StartBtn:hover {
+  background: #ddd;
+}
+.RootExample button, .TargetExample button {
+  width: 30px;
+	height: 30px;
+	color: #fff;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 30px;
+	box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
+  cursor: default;
+  border: 0;
+  background: rgb(23, 27, 130);
+  font-size: 16px;
+}
+.TargetExample, .RootExample {
+  width: 200px;
+  color: white;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  position: relative;
+  left: -15px;
+}
+.TargetExample button {
+  background: rgb(150, 38, 13);
+  position: relative;
+  left: 5px;
+}
+.RootExample span {
+  position: relative;
+  left: 30px;
+  top: -2px;
+  font-size: 16px;
+}
+.TargetExample span {
+  position: relative;
+  left: 35px;
+  top: -2px;
+  font-size: 16px;
+}
+.Hide {
+  display: none;
+}
+.SettingsDiv {
+  background: white;
+  box-shadow: 0 1px 10px 0 rgba(0,0,0,0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 3px;
+  width: 40%;
+  height: 55%;
+  max-width: 500px;
+  max-height: 300px;
+}
+.SettingsTop {
+  width: 100%;
+}
+.SettingsTitle {
+  color: rgb(2, 30, 57, 0.9);
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 10px;
+}
+.SettingsIntervals {
+  margin: 10px 0;
+  width: 60%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+.SettingIntEnabled {
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1.5px solid rgb(16, 30, 117);
+  background: rgb(16, 30, 117, 0.1);
+  outline: none;
+  width: 35px;
+  height: 35px;
+  margin: 5px;
+}
+.SettingIntDisabled {
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1.5px solid #ddd;
+  background: rgb(0, 0, 0, 0.1);
+  outline: none;
+  width: 35px;
+  height: 35px;
+  margin: 5px;
+}
+.SettingsErrMsg {
+  opacity: 1;
+  margin-bottom: 10px;
+  transition: 350ms opacity;
+  color: rgb(2, 30, 57);
+  text-align: center;
+}
+.HideOpacity {
+  opacity: 0;
+}
+.SettingsBtns {
+  display: flex;
+  justify-content: center;
+}
+.SettingsBtns button {
+  width: 85px;
+  height: 40px;
+  margin: 10px 5px 5px;
+  border-radius: 3px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+}
+.BtnSelected {
+  background: #eee;
+  border: 2px solid rgb(16, 30, 117);
+}
+.BtnUnselected {
+  background: #ddd;
+  border: 2px solid #ddd;
+}
+.InnerTitle {
+  display: none;
+}
+@media (max-width: 1124px) {
+  .SettingsIntervals {
+    width: 70%;
+  }
+}
+@media (max-width: 1020px) {
+  .IntervalContainer {
+    top: -6.25px;
+  }
+}
+@media (max-width: 995px) {
+  .IntervalContainer {
+    top: -12.5px;
+  }
+}
+@media (max-width: 970px) {
+  .IntervalContainer {
+    top: -18.75px;
+  }
+}
+@media (max-width: 964px) {
+  .SettingsIntervals {
+    width: 80%;
+  }
+}
+@media (max-width: 945px) {
+  .IntervalContainer {
+    top: -25px;
+  }
+}
+@media (max-width: 920px) {
+  .IntervalContainer {
+    top: -31.25px;
+  }
+  .ExampleTitle {
+    margin-top: -10px;
+  }
+}
+@media (max-width: 895px) {
+  .IntervalContainer {
+    top: -37.5px;
+  }
+  .Intervals {
+    width: 450px;
+  }
+}
+@media (max-width: 870px) {
+  .IntervalContainer {
+    top: -43.75px;
+  }
+}
+@media (max-width: 843px) {
+  .SettingsIntervals {
+    width: 90%;
+  }
+}
+@media (max-width: 845px) {
+  .IntervalContainer {
+    top: -50px;
+  }
+}
+@media (max-width: 820px) {
+  .IntervalContainer {
+    top: -56.25px;
+  }
+}
+@media (max-width: 795px) {
+  .IntervalContainer {
+    top: -62.5px;
+  }
+}
+@media (max-width: 770px) {
+  .IntervalContainer {
+    top: -68.75px;
+  }
+}
+@media (max-width: 749px) {
+  .SettingsDiv {
+    width: 50%;
+  }
+  .SettingsIntervals {
+    width: 80%;
+  }
+}
+@media (max-width: 745px) {
+  .IntervalContainer {
+    top: -75px;
+  }
+}
+@media (max-width: 720px) {
+  .IntervalContainer {
+    top: -81.25px;
+  }
+}
+@media (max-width: 695px) {
+  .IntervalContainer {
+    top: -87.5px;
+  }
+}
+@media (max-width: 674px) {
+  .SettingsIntervals {
+    width: 90%;
+  }
+}
+@media (max-width: 670px) {
+  .IntervalContainer {
+    top: -93.75px;
+  }
+}
+@media (max-width: 645px) {
+  .IntervalContainer {
+    top: -100px;
+  }
+}
+@media (max-width: 620px) {
+  .IntervalContainer {
+    top: -106.25px;
+  }
+}
+@media (max-width: 595px) {
+  .IntervalContainer {
+    top: -112.5px;
+  }
+}
+@media (max-width: 570px) {
+  .IntervalContainer {
+    top: -118.75px;
+  }
+}
+@media (max-width: 545px) {
+  .IntervalContainer {
+    top: -125px;
+  }
+}
+@media (max-width: 520px) {
+  .IntervalContainer {
+    top: -131.25px;
+  }
+}
+@media (max-width: 495px) {
+  .IntervalContainer {
+    top: -137.5px;
+  }
+}
+@media (min-height: 650px) {
+  .SettingsDiv {
+    margin-top: 130px;
+  }
+  .ShowSettings {
+    align-items: flex-start;
+  }
+}
+@media (max-height: 545px) {
+  .IntervalContainer {
+    margin-top: 10px;
+  }
+  .IntEnabled {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+}
+@media (max-height: 530px) {
+  .SettingsDiv {
+    padding-bottom: 10px;
+    overflow-y: auto;
+  }
+}
+@media (max-height: 520px) {
+  .Title {
+    margin-bottom: -12px;
+  }
+  .IntervalContainer {
+    margin-top: 3px;
+  }
+  .RepeatText {
+    top: 120px;
+  }
+  .ArrowUp {
+    top: 85px;
+  }
+}
+@media (max-height: 500px) {
+  .Content {
+    top: 50px;
+    height: calc(100% - 50px);
+  }
+}
+@media (max-height: 485px) {
+  .Title {
+    display: none;
+  }
+  .InnerTitle {
+    display: block;
+    color: rgb(2, 30, 57, 0.9);
+    font-size: 26px;
+    text-align: center;
+  }
+  .TopBar {
+    margin-top: 10px;
+  }
+  .ArrowUp {
+    top: 45px;
+  }
+  .RepeatText {
+    top: 80px;
+  }
+  .StartPanel {
+    top: 110px;
+  }
+}
+@media (max-width: 895px) and (max-height: 450px) {
+  .IntEnabled {
+    font-size: 16px;
+    width: 40px;
+    height: 40px;
+    margin: 8px;
+  }
+  .Intervals {
+    width: 90%;
+  }
+}
+@media (max-width: 650px) and (max-height: 485px) {
+  .InnerTitle {
+    font-size: 20px;
+  }
+  .Intervals {
+    width: 100%;
+  }
+  .IntEnabled {
+    font-size: 14px;
+    width: 35px;
+    height: 35px;
+    margin: 5px;
+  }
+}
+@media (max-width: 746px) and (min-width: 650px) and (max-height: 450px) {
+  .Intervals {
+    width: 55%;
+  }
+}
+@media (max-width: 465px) {
+  .Content {
+    overflow-x: auto;
+  }
+}
+@media (max-height: 340px) {
+  .Content {
+    overflow-y: auto;
+  }
+}

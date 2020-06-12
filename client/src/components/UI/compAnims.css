@@ -1,0 +1,15 @@
+.PanelOpacity-enter {
+  opacity: 0;
+}
+.PanelOpacity-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+.PanelOpacity-exit {
+  opacity: 1;
+}
+.PanelOpacity-exit-active {
+  opacity: 0;
+  color: white;
+  transition: opacity 150ms;
+}

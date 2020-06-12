@@ -7,9 +7,16 @@ export const notes = [
   'ER6', 'F6', 'Gb6', 'G6', 'Ab6', 'A6', 'Bb6', 'B6', 'C6', 'Db6', 'D6', 'Eb6' ,'E6'
 ];
 
-const intervals = ['b2', '2', 'b3', '3', '4', 'b5', '5', 'b6', '6', 'b7', '7', '8'];
+export const getNoteShorthand = (note) => {
+  return note.includes('R') || note.length === 2 ?
+  note.slice(0, 1) : note.slice(0, 2);
+};
+
+export const intervals = ['b2', '2', 'b3', '3', '4', 'b5', '5', 'b6', '6', 'b7', '7', '8'];
 
 const eScale = ['F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E'];
+
+export const aScale = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
 
 export const calcInterval = (root, other) => {
   // eg Ab6 -> Ab, ER1 -> E
@@ -36,21 +43,43 @@ export const calcInterval = (root, other) => {
   }
 };
 
-// continues finding 2 random notes till they aren't the same,
-// and are at least 30 notes apart
-export const getRandNotes = () => {
+// takes optional arr of notes not to use
+export const getRandNote = (disabledNotes) => {
+  let rand = Math.floor(Math.random() * 78);
+  while (disabledNotes.includes(getNoteShorthand(notes[rand]))) {
+    rand = Math.floor(Math.random() * 78);
+  }
+  return notes[rand];
+};
+
+// continues finding 2 random notes till they aren't the same
+// takes optional intervalType for ascending/descending intervals only
+export const getRandNotes = (intervalType) => {
   let rand1 = Math.floor(Math.random() * 78);
   let rand2 = Math.floor(Math.random() * 78);
-  while(rand1 === rand2 && Math.abs(rand1 - rand2) > 30) {
-    rand2 = Math.floor(Math.random() * 78);
+  if (intervalType === 'Ascending') {
+    while(rand1 >= rand2) {
+      rand1 = Math.floor(Math.random() * 78);
+      rand2 = Math.floor(Math.random() * 78);
+    }
+  } else if (intervalType === 'Descending') {
+    while(rand1 <= rand2) {
+      rand1 = Math.floor(Math.random() * 78);
+      rand2 = Math.floor(Math.random() * 78);
+    }
+  } else {
+    while(rand1 === rand2) {
+      rand1 = Math.floor(Math.random() * 78);
+      rand2 = Math.floor(Math.random() * 78);
+    }
   }
   return [notes[rand1], notes[rand2]];
 };
 
 // return random notes & their interval
 // takes optional disabledIntervals which includes intervals not to use
-export const generateInterval = (disabledIntervals) => {
-  let [note1, note2] = getRandNotes();
+export const generateInterval = (disabledIntervals, intervalType) => {
+  let [note1, note2] = getRandNotes(intervalType);
   let interval = calcInterval(note1, note2);
   if (disabledIntervals.length > 0) {
     while (disabledIntervals.includes(interval)) {

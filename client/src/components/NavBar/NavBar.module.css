@@ -89,3 +89,11 @@
     display: none;
   }
 }
+@media (max-height: 500px) {
+  .NavBar {
+    height: 50px;
+  }
+  .SideToggle {
+    height: 100%;
+  }
+}

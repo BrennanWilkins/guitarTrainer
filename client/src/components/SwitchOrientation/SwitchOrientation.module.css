@@ -1,0 +1,62 @@
+.Container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+}
+.Panel {
+  width: 300px;
+  width: 50%;
+  height: 25%;
+  background: white;
+  box-shadow: 0 1px 10px 0 rgba(0,0,0,0.75);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 3px;
+  margin-top: 25vh;
+}
+.Panel p {
+  margin: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+.Icons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Portrait {
+  font-size: 30px;
+  display: flex;
+}
+.Arrow {
+  font-size: 30px;
+  transform: rotate(90deg);
+  margin: 0 10px 0 5px;
+  display: flex;
+}
+.Landscape {
+  font-size: 30px;
+  transform: rotate(90deg);
+  display: flex;
+}
+.Ignore {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Ignore span {
+  margin-left: 10px;
+}
+.Ignore input {
+  width: 17px;
+  height: 17px;
+}

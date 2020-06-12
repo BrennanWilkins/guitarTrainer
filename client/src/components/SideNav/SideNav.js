@@ -8,14 +8,12 @@ const SideNav = props => (
   <div>
     <div className={[classes.SideNav, props.show ? classes.ShowNav : classes.HideNav].join(' ')}>
       <CloseBtn close={props.close} />
-      <div className={classes.HomeLink}><GuitarIcon /></div>
-      <div className={classes.ContentLink}><Link to="/interval-finder">Interval Finder</Link></div>
-      <div className={classes.ContentLink}><Link to="/interval-ear-trainer">Interval Ear Trainer</Link></div>
-      <div className={classes.ContentLink}><Link to="/note-finder">Note Finder</Link></div>
-      <div className={classes.ContentLink}><Link to="/note-ear-trainer">Note Ear Trainer</Link></div>
-      <div className={classes.ContentLink}><Link to="/stats">Stats</Link></div>
-      <div className={classes.AuthLink}><Link to="/login">Login</Link></div>
-      <div className={classes.AuthLink}><Link to="/signup">Signup</Link></div>
+      <div onClick={props.close} className={classes.HomeLink}><GuitarIcon /></div>
+      <div onClick={props.close} className={classes.ContentLink}><Link to="/interval-trainer">Interval Trainer</Link></div>
+      <div onClick={props.close} className={classes.ContentLink}><Link to="/note-trainer">Note Trainer</Link></div>
+      <div onClick={props.close} className={classes.ContentLink}><Link to="/stats">Stats</Link></div>
+      <div onClick={props.close} className={classes.AuthLink}><Link to="/login">Login</Link></div>
+      <div onClick={props.close} className={classes.AuthLink}><Link to="/signup">Signup</Link></div>
     </div>
     <div className={props.show ? classes.ShowBackdrop : classes.HideBackdrop} onClick={props.close}></div>
   </div>
