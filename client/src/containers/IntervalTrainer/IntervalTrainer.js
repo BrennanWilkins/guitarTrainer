@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react';
 import classes from './IntervalTrainer.module.css';
 import Guitar from '../../components/Guitar/Guitar';
-import { generateInterval, intervals } from '../../utils/intervalFuncs';
+import { generateInterval } from '../../utils/intervalFuncs';
 import TopBtns from '../../components/TrainerTopBtns/TrainerTopBtns';
 import SessionStats from '../../components/SessionStats/SessionStats';
 import StartPanel from '../../components/StartPanel/StartPanel';
 import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
+import NoteContainer from '../../components/NoteContainer/NoteContainer';
 
 const IntervalTrainer = props => {
   const [sessionCorrect, setSessionCorrect] = useState(0);
@@ -120,15 +121,7 @@ const IntervalTrainer = props => {
         <SessionStats animCorrect={animCorrect} animWrong={animWrong} correct={sessionCorrect} wrong={sessionWrong} />
       </div>
       <Guitar rootNote={rootNote} otherNote={otherNote} />
-      <div className={classes.IntervalContainer}>
-        <div className={classes.Intervals}>
-          {intervals.map(interval => (
-            <button onClick={checkAnswer} value={interval} key={interval}
-            className={disabledIntervals.includes(interval) ? classes.IntDisabled : classes.IntEnabled}>
-            {interval}</button>
-          ))}
-        </div>
-      </div>
+      <NoteContainer disabledBtns={disabledIntervals} checkAnswer={checkAnswer} mode="Interval"/>
       <StartPanel mode="Interval" started={startGameHandler} startGame={startGame} />
       <SettingsPanel showSettings={showSettings} outsideClose={closeSettingsOutsideHandler} ref={settingsBackdrop}
       close={closeSettingsHandler} mode="Interval" toggle={toggleInterval} disabledBtns={disabledIntervals}

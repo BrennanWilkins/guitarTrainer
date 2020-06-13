@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react';
 import classes from './NoteTrainer.module.css';
 import Guitar from '../../components/Guitar/Guitar';
-import { getRandNote, aScale, getNoteShorthand } from '../../utils/intervalFuncs';
+import { getRandNote, getNoteShorthand } from '../../utils/intervalFuncs';
 import TopBtns from '../../components/TrainerTopBtns/TrainerTopBtns';
 import SessionStats from '../../components/SessionStats/SessionStats';
 import StartPanel from '../../components/StartPanel/StartPanel';
 import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
+import NoteContainer from '../../components/NoteContainer/NoteContainer';
 
 const NoteTrainer = () => {
   const [sessionCorrect, setSessionCorrect] = useState(0);
@@ -111,15 +112,7 @@ const NoteTrainer = () => {
         <SessionStats animCorrect={animCorrect} animWrong={animWrong} correct={sessionCorrect} wrong={sessionWrong} />
       </div>
       <Guitar otherNote={note} />
-      <div className={classes.NoteContainer}>
-        <div className={classes.Notes}>
-          {aScale.map(scaleNote => (
-            <button onClick={checkAnswer} value={scaleNote} key={scaleNote}
-            className={disabledNotes.includes(scaleNote) ? classes.NoteDisabled : classes.NoteEnabled}>
-            {scaleNote}</button>
-          ))}
-        </div>
-      </div>
+      <NoteContainer disabledBtns={disabledNotes} checkAnswer={checkAnswer} mode="Note" />
       <StartPanel mode="Note" started={startGameHandler} startGame={startGame} />
       <SettingsPanel mode="Note" showSettings={showSettings} disabledBtns={disabledNotes} toggle={toggleNote}
       outsideClose={closeSettingsOutsideHandler} ref={settingsBackdrop} close={closeSettingsHandler}
