@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
 import classes from './IntervalTrainer.module.css';
 import Guitar from '../../components/Guitar/Guitar';
-import { settingsIcon, questionCircle, checkMark, xIcon, repeatIcon, arrowUp,
-  volumeOnIcon, volumeOffIcon } from '../../components/UI/UIIcons';
 import { generateInterval, intervals } from '../../utils/intervalFuncs';
-import CloseBtn from '../../components/UI/CloseBtn/CloseBtn';
+import TopBtns from '../../components/TrainerTopBtns/TrainerTopBtns';
+import SessionStats from '../../components/SessionStats/SessionStats';
+import StartPanel from '../../components/StartPanel/StartPanel';
+import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
 
 const IntervalTrainer = props => {
   const [sessionCorrect, setSessionCorrect] = useState(0);
@@ -113,31 +114,10 @@ const IntervalTrainer = props => {
     <div className={classes.Content}>
       <h1 className={classes.Title}>Interval Trainer</h1>
       <div className={classes.TopBar}>
-        <div className={classes.TopBtns}>
-          <button onClick={() => setShowSettings(true)}>{settingsIcon}</button>
-          <button onClick={() => setStartGame(false)}>{questionCircle}</button>
-          <button className={classes.RepeatNotes} onClick={repeatNotes}>
-            {repeatIcon}
-            <span className={startGame ? classes.Hidden : classes.ArrowUp}>{arrowUp}</span>
-            <span className={startGame ? classes.Hidden : classes.RepeatText}>Repeat the notes</span>
-          </button>
-          <button onClick={() => setVolumeOn(prevState => !prevState)}>{volumeOn ? volumeOnIcon : volumeOffIcon}</button>
-        </div>
+        <TopBtns showSettings={() => setShowSettings(true)} pause={() => setStartGame(false)} repeat={repeatNotes}
+        started={startGame} mode="Interval" clicked={() => setVolumeOn(prevState => !prevState)} volumeOn={volumeOn} />
         <h1 className={classes.InnerTitle}>Interval Trainer</h1>
-        <div className={classes.SessionStats}>
-          <div>
-            <span className={classes.CheckMark}>{checkMark}</span>
-            <span className={animCorrect ? [classes.NumAnim, classes.SessionNum].join(' ') : classes.SessionNum}>
-              {sessionCorrect}
-            </span>
-          </div>
-          <div>
-            <span className={classes.XIcon}>{xIcon}</span>
-            <span className={animWrong ? [classes.NumAnim, classes.SessionNum].join(' ') : classes.SessionNum}>
-              {sessionWrong}
-            </span>
-          </div>
-        </div>
+        <SessionStats animCorrect={animCorrect} animWrong={animWrong} correct={sessionCorrect} wrong={sessionWrong} />
       </div>
       <Guitar rootNote={rootNote} otherNote={otherNote} />
       <div className={classes.IntervalContainer}>
@@ -149,49 +129,10 @@ const IntervalTrainer = props => {
           ))}
         </div>
       </div>
-      <div className={startGame ? classes.Hide : classes.ShowStart}>
-        <div className={classes.StartPanel}>
-          <span className={classes.ExampleTitle}>Select the interval between the two notes</span>
-          <button className={classes.StartBtn} onClick={startGameHandler}>Play</button>
-          <div className={classes.RootExample}>
-            <button>R</button>
-            <span>Root Note</span>
-          </div>
-          <div className={classes.TargetExample}>
-            <button></button>
-            <span>Target Note</span>
-          </div>
-        </div>
-      </div>
-      <div className={showSettings ? classes.ShowSettings : classes.Hide}
-      onClick={closeSettingsOutsideHandler} ref={settingsBackdrop}>
-        <div className={classes.SettingsDiv}>
-          <div className={classes.SettingsTop}>
-            <CloseBtn close={closeSettingsHandler}/>
-          </div>
-          <span className={classes.SettingsTitle}>Enable or disable individual intervals</span>
-          <div className={classes.SettingsIntervals}>
-            {intervals.map(interval => (
-              <button onClick={toggleInterval} value={interval} key={interval}
-              className={disabledIntervals.includes(interval) ? classes.SettingIntDisabled : classes.SettingIntEnabled}>
-              {interval}</button>
-            ))}
-          </div>
-          <span className={showSettingsErr ? classes.SettingsErrMsg : classes.HideOpacity}>{settingsErrMsg}</span>
-          <span className={classes.SettingsTitle}>Show only ascending or descending intervals</span>
-          <div className={classes.SettingsBtns}>
-            <button onClick={() => setIntervalType('Ascending')}
-            className={intervalType === 'Ascending' ? classes.BtnSelected : classes.BtnUnselected}>
-            Ascending</button>
-            <button onClick={() => setIntervalType('Descending')}
-            className={intervalType === 'Descending' ? classes.BtnSelected : classes.BtnUnselected}>
-            Descending</button>
-            <button onClick={() => setIntervalType('Both')}
-            className={intervalType === 'Both' ? classes.BtnSelected : classes.BtnUnselected}>
-            Both</button>
-          </div>
-        </div>
-      </div>
+      <StartPanel mode="Interval" started={startGameHandler} startGame={startGame} />
+      <SettingsPanel showSettings={showSettings} outsideClose={closeSettingsOutsideHandler} ref={settingsBackdrop}
+      close={closeSettingsHandler} mode="Interval" toggle={toggleInterval} disabledBtns={disabledIntervals}
+      showErr={showSettingsErr} errMsg={settingsErrMsg} setType={(type) => setIntervalType(type)} intType={intervalType} />
     </div>
   );
 };

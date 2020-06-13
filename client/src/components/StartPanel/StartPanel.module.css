@@ -1,0 +1,91 @@
+.Hide {
+  display: none;
+}
+.ShowStart {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.StartPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 170px;
+}
+.ExampleTitle {
+  color: white;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.StartBtn {
+  cursor: pointer;
+  width: 110px;
+  height: 40px;
+  border-radius: 3px;
+  border: 0;
+  box-shadow: 0 1px 10px 0 rgba(0,0,0,0.75);
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.StartBtn:hover {
+  background: #ddd;
+}
+.RootExample button, .TargetExample button {
+  width: 30px;
+	height: 30px;
+	color: #fff;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 30px;
+	box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
+  cursor: default;
+  border: 0;
+  background: rgb(23, 27, 130);
+  font-size: 16px;
+}
+.TargetExample, .RootExample {
+  width: 200px;
+  color: white;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  position: relative;
+  left: -15px;
+}
+.TargetExample button {
+  background: rgb(150, 38, 13);
+  position: relative;
+  left: 5px;
+}
+.RootExample span {
+  position: relative;
+  left: 30px;
+  top: -2px;
+  font-size: 16px;
+}
+.TargetExample span {
+  position: relative;
+  left: 35px;
+  top: -2px;
+  font-size: 16px;
+}
+@media (max-width: 920px) {
+  .ExampleTitle {
+    margin-top: -10px;
+  }
+}
+@media (max-height: 485px) {
+  .StartPanel {
+    top: 110px;
+  }
+}

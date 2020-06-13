@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
 import classes from './NoteTrainer.module.css';
 import Guitar from '../../components/Guitar/Guitar';
-import { settingsIcon, questionCircle, checkMark, xIcon, repeatIcon, arrowUp,
-  volumeOnIcon, volumeOffIcon } from '../../components/UI/UIIcons';
 import { getRandNote, aScale, getNoteShorthand } from '../../utils/intervalFuncs';
-import CloseBtn from '../../components/UI/CloseBtn/CloseBtn';
+import TopBtns from '../../components/TrainerTopBtns/TrainerTopBtns';
+import SessionStats from '../../components/SessionStats/SessionStats';
+import StartPanel from '../../components/StartPanel/StartPanel';
+import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
 
 const NoteTrainer = () => {
   const [sessionCorrect, setSessionCorrect] = useState(0);
@@ -104,33 +105,10 @@ const NoteTrainer = () => {
     <div className={classes.Content}>
       <h1 className={classes.Title}>Note Trainer</h1>
       <div className={classes.TopBar}>
-        <div className={classes.TopBtns}>
-          <button onClick={() => setShowSettings(true)}>{settingsIcon}</button>
-          <button onClick={() => setStartGame(false)}>{questionCircle}</button>
-          <button className={classes.RepeatNotes} onClick={repeatNote}>
-            {repeatIcon}
-            <span className={startGame ? classes.Hidden : classes.ArrowUp}>{arrowUp}</span>
-            <span className={startGame ? classes.Hidden : classes.RepeatText}>Repeat the note</span>
-          </button>
-          <button onClick={() => setVolumeOn(prevState => !prevState)}>
-            {volumeOn ? volumeOnIcon : volumeOffIcon}
-          </button>
-        </div>
+        <TopBtns showSettings={() => setShowSettings(true)} pause={() => setStartGame(false)} repeat={repeatNote}
+        started={startGame} mode="Note" clicked={() => setVolumeOn(prevState => !prevState)} volumeOn={volumeOn} />
         <h1 className={classes.InnerTitle}>Note Trainer</h1>
-        <div className={classes.SessionStats}>
-          <div>
-            <span className={classes.CheckMark}>{checkMark}</span>
-            <span className={animCorrect ? [classes.NumAnim, classes.SessionNum].join(' ') : classes.SessionNum}>
-              {sessionCorrect}
-            </span>
-          </div>
-          <div>
-            <span className={classes.XIcon}>{xIcon}</span>
-            <span className={animWrong ? [classes.NumAnim, classes.SessionNum].join(' ') : classes.SessionNum}>
-              {sessionWrong}
-            </span>
-          </div>
-        </div>
+        <SessionStats animCorrect={animCorrect} animWrong={animWrong} correct={sessionCorrect} wrong={sessionWrong} />
       </div>
       <Guitar otherNote={note} />
       <div className={classes.NoteContainer}>
@@ -142,33 +120,10 @@ const NoteTrainer = () => {
           ))}
         </div>
       </div>
-      <div className={startGame ? classes.Hide : classes.ShowStart}>
-        <div className={classes.StartPanel}>
-          <span className={classes.ExampleTitle}>Name the note</span>
-          <button className={classes.StartBtn} onClick={startGameHandler}>Play</button>
-          <div className={classes.TargetExample}>
-            <button></button>
-            <span>Target Note</span>
-          </div>
-        </div>
-      </div>
-      <div className={showSettings ? classes.ShowSettings : classes.Hide}
-      onClick={closeSettingsOutsideHandler} ref={settingsBackdrop}>
-        <div className={classes.SettingsDiv}>
-          <div className={classes.SettingsTop}>
-            <CloseBtn close={closeSettingsHandler}/>
-          </div>
-          <span className={classes.SettingsTitle}>Enable or disable individual notes</span>
-          <div className={classes.SettingsNotes}>
-            {aScale.map(scaleNote => (
-              <button onClick={toggleNote} value={scaleNote} key={scaleNote}
-              className={disabledNotes.includes(scaleNote) ? classes.SettingNoteDisabled : classes.SettingNoteEnabled}>
-              {scaleNote}</button>
-            ))}
-          </div>
-          <span className={showSettingsErr ? classes.SettingsErrMsg : classes.HideOpacity}>{settingsErrMsg}</span>
-        </div>
-      </div>
+      <StartPanel mode="Note" started={startGameHandler} startGame={startGame} />
+      <SettingsPanel mode="Note" showSettings={showSettings} disabledBtns={disabledNotes} toggle={toggleNote}
+      outsideClose={closeSettingsOutsideHandler} ref={settingsBackdrop} close={closeSettingsHandler}
+      showErr={showSettingsErr} errMsg={settingsErrMsg} />
     </div>
   );
 };

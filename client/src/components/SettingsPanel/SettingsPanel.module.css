@@ -1,0 +1,140 @@
+.ShowSettings {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Hide {
+  display: none;
+}
+.SettingsDiv {
+  background: white;
+  box-shadow: 0 1px 10px 0 rgba(0,0,0,0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 3px;
+  width: 40%;
+  height: 55%;
+  max-width: 500px;
+  max-height: 300px;
+}
+.SettingsTop {
+  width: 100%;
+}
+.SettingsTitle {
+  color: rgb(2, 30, 57, 0.9);
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 10px;
+}
+.SettingsIntervals {
+  margin: 10px 0;
+  width: 60%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+.SettingIntEnabled {
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1.5px solid rgb(16, 30, 117);
+  background: rgb(16, 30, 117, 0.1);
+  outline: none;
+  width: 35px;
+  height: 35px;
+  margin: 5px;
+}
+.SettingIntDisabled {
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1.5px solid #ddd;
+  background: rgb(0, 0, 0, 0.1);
+  outline: none;
+  width: 35px;
+  height: 35px;
+  margin: 5px;
+}
+.SettingsErrMsg {
+  opacity: 1;
+  margin-bottom: 10px;
+  transition: 350ms opacity;
+  color: rgb(2, 30, 57);
+  text-align: center;
+}
+.HideOpacity {
+  opacity: 0;
+}
+.SettingsBtns {
+  display: flex;
+  justify-content: center;
+}
+.SettingsBtns button {
+  width: 85px;
+  height: 40px;
+  margin: 10px 5px 5px;
+  border-radius: 3px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+}
+.BtnSelected {
+  background: #eee;
+  border: 2px solid rgb(16, 30, 117);
+}
+.BtnUnselected {
+  background: #ddd;
+  border: 2px solid #ddd;
+}
+@media (max-width: 1124px) {
+  .SettingsIntervals {
+    width: 70%;
+  }
+}
+@media (max-width: 964px) {
+  .SettingsIntervals {
+    width: 80%;
+  }
+}
+@media (max-width: 843px) {
+  .SettingsIntervals {
+    width: 90%;
+  }
+}
+@media (max-width: 749px) {
+  .SettingsDiv {
+    width: 50%;
+  }
+  .SettingsIntervals {
+    width: 80%;
+  }
+}
+@media (max-width: 674px) {
+  .SettingsIntervals {
+    width: 90%;
+  }
+}
+@media (min-height: 650px) {
+  .SettingsDiv {
+    margin-top: 130px;
+  }
+  .ShowSettings {
+    align-items: flex-start;
+  }
+}
+@media (max-height: 530px) {
+  .SettingsDiv {
+    padding-bottom: 10px;
+    overflow-y: auto;
+  }
+}
