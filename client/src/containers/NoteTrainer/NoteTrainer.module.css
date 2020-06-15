@@ -5,6 +5,9 @@
   width: 100%;
   overflow: hidden;
 }
+.NoScroll {
+  overflow-y: hidden;
+}
 .Title {
   margin-top: 5px;
   display: flex;

@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Guitar.module.css';
-import { notes } from '../../utils/intervalFuncs';
+import { notes, getNoteShorthand } from '../../utils/intervalFuncs';
 
 const Guitar = props => (
   <div className={classes.GuitarOuterContainer}>
@@ -31,9 +31,10 @@ const Guitar = props => (
                   <li key={note}
                   className={
                     props.rootNote === note ? classes.RootNote :
-                    props.otherNote === note ? classes.OtherNote :
+                    props.otherNotes.includes(note) ? classes.OtherNote :
+                    props.noAnim ? classes.HideNoAnim :
                     classes.HiddenNote}>
-                    {props.rootNote === note ? 'R' : ''}
+                    {props.rootNote === note ? 'R' : props.otherNotes.includes(note) ? '' : getNoteShorthand(note)}
                   </li>
                 ))}
               </ul>

@@ -1,16 +1,16 @@
 import React, { useState, useRef } from 'react';
-import classes from './IntervalTrainer.module.css';
+import classes from './ChordTrainer.module.css';
 import Guitar from '../../components/Guitar/Guitar';
-import { generateInterval } from '../../utils/intervalFuncs';
+import { getMajMinChord, getNoteShorthand } from '../../utils/intervalFuncs';
 import TopBtns from '../../components/TrainerTopBtns/TrainerTopBtns';
 import SessionStats from '../../components/SessionStats/SessionStats';
 import StartPanel from '../../components/StartPanel/StartPanel';
 import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
 import NoteContainer from '../../components/NoteContainer/NoteContainer';
 import { connect } from 'react-redux';
-import { incCorrect, incWrong, incCorrectInterval, incWrongInterval } from '../../store/actions/index';
+import { incCorrect, incWrong } from '../../store/actions/index';
 
-const IntervalTrainer = props => {
+const ChordTrainer = props => {
   const [sessionCorrect, setSessionCorrect] = useState(0);
   const [animCorrect, setAnimCorrect] = useState(false);
   const [sessionWrong, setSessionWrong] = useState(0);
@@ -18,17 +18,20 @@ const IntervalTrainer = props => {
   const [gameFirstStart, setGameFirstStart] = useState(false);
   const [startGame, setStartGame] = useState(false);
   const [rootNote, setRootNote] = useState('');
-  const [otherNote, setOtherNote] = useState('');
-  const [interval, setInterval] = useState('');
+  const [thirdNote, setThirdNote] = useState('');
+  const [fifthNote, setFifthNote] = useState('');
+  const [chord, setChord] = useState('');
   const [rootSound, setRootSound] = useState();
-  const [otherSound, setOtherSound] = useState();
+  const [thirdSound, setThirdSound] = useState();
+  const [fifthSound, setFifthSound] = useState();
   const [showSettings, setShowSettings] = useState(false);
-  const [disabledIntervals, setDisabledIntervals] = useState([]);
+  const [disabledRoots, setDisabledRoots] = useState([]);
   const [settingsErrMsg, setSettingsErrMsg] = useState('');
   const [showSettingsErr, setShowSettingsErr] = useState(false);
-  const [intervalType, setIntervalType] = useState('Ascending');
-  const [prevIntervalType, setPrevIntervalType] = useState('Ascending');
+  const [chordType, setChordType] = useState('Both');
+  const [prevChordType, setPrevChordType] = useState('Both');
   const [volumeOn, setVolumeOn] = useState(true);
+  const [selectedChord, setSelectedChord] = useState('3');
   const [noCorrAnim, setNoCorrAnim] = useState(false);
 
   const settingsBackdrop = useRef();
@@ -42,27 +45,48 @@ const IntervalTrainer = props => {
   };
 
   const gameLoop = () => {
-    const [root, other, interval] = generateInterval(disabledIntervals, intervalType);
+    const [root, third, fifth, newChord] = getMajMinChord(disabledRoots, chordType);
     const newRootSound = new Audio(`/assets/notes/${root}.mp3`);
-    const newOtherSound = new Audio(`/assets/notes/${other}.mp3`);
+    const newThirdSound = new Audio(`/assets/notes/${third}.mp3`);
+    const newFifthSound = new Audio(`/assets/notes/${fifth}.mp3`);
     setRootNote(root);
-    setOtherNote(other);
-    setInterval(interval);
+    setThirdNote(third);
+    setFifthNote(fifth);
+    setChord(newChord);
     setRootSound(newRootSound);
-    setOtherSound(newOtherSound);
+    setThirdSound(newThirdSound);
+    setFifthSound(newFifthSound);
     if (!volumeOn) { return; }
+    newRootSound.autoplay = false;
+    newThirdSound.autoplay = false;
+    newFifthSound.autoplay = false;
     newRootSound.play();
-    setTimeout(() => newOtherSound.play(), 1700);
+    newThirdSound.play();
+    newFifthSound.play();
+  };
+
+  const repeatNotes = () => {
+    rootSound.pause();
+    thirdSound.pause();
+    fifthSound.pause();
+    rootSound.currentTime = 0;
+    thirdSound.currentTime = 0;
+    fifthSound.currentTime = 0;
+    if (!volumeOn) { return; }
+    rootSound.play();
+    thirdSound.play();
+    fifthSound.play();
   };
 
   const checkAnswer = (e) => {
-    if (e.target.value === interval) {
+    if (e.target.value === getNoteShorthand(rootNote) && selectedChord === chord) {
       rootSound.pause();
-      otherSound.pause();
+      thirdSound.pause();
+      fifthSound.pause();
       rootSound.muted = true;
-      otherSound.muted = true;
+      thirdSound.muted = true;
+      fifthSound.muted = true;
       props.onCorrect();
-      props.onCorrectInterval(interval);
       setSessionCorrect(prevCorrect => prevCorrect + 1);
       setAnimCorrect(true);
       setTimeout(() => {
@@ -72,7 +96,6 @@ const IntervalTrainer = props => {
       }, 300);
     } else {
       props.onWrong();
-      props.onWrongInterval(interval);
       setAnimWrong(true);
       setTimeout(() => {
         setAnimWrong(false);
@@ -81,29 +104,19 @@ const IntervalTrainer = props => {
     }
   };
 
-  const repeatNotes = () => {
-    rootSound.pause();
-    otherSound.pause();
-    rootSound.currentTime = 0;
-    otherSound.currentTime = 0;
-    if (!volumeOn) { return; }
-    setTimeout(() => rootSound.play(), 100);
-    setTimeout(() => otherSound.play(), 1700);
-  };
-
-  const toggleInterval = (e) => {
+  const toggleChord = (e) => {
     const val = e.target.value;
-    if (disabledIntervals.includes(val)) {
-      setDisabledIntervals(prevInts => prevInts.filter(int => int !== val));
-      if (disabledIntervals.length < 12) {
+    if (disabledRoots.includes(val)) {
+      setDisabledRoots(prevRoots => prevRoots.filter(root => root !== val));
+      if (disabledRoots.length < 12) {
         setShowSettingsErr(false);
         setSettingsErrMsg('');
       }
     } else {
-      setDisabledIntervals(prevInts => prevInts.concat([val]));
-      if (disabledIntervals.length > 9) {
+      setDisabledRoots(prevRoots => prevRoots.concat([val]));
+      if (disabledRoots.length > 9) {
         setShowSettingsErr(true);
-        setSettingsErrMsg('You need to have at least two intervals enabled.');
+        setSettingsErrMsg('You need to have at least two chords enabled.');
       }
     }
   };
@@ -112,34 +125,36 @@ const IntervalTrainer = props => {
     // always closes if close btn clicked
     if ((showSettingsErr || e.target !== settingsBackdrop.current) && !always) { return; }
     setShowSettings(false);
-    if (disabledIntervals.includes(interval) || intervalType !== prevIntervalType) {
+    if (disabledRoots.includes(getNoteShorthand(rootNote)) || chordType !== prevChordType) {
       setNoCorrAnim(true);
-      setPrevIntervalType(intervalType);
+      setPrevChordType(chordType);
       gameLoop();
     }
   };
 
   const toggleAudio = () => {
     rootSound.muted = volumeOn;
-    otherSound.muted = volumeOn;
+    thirdSound.muted = volumeOn;
+    fifthSound.muted = volumeOn;
     rootSound.pause();
-    otherSound.pause();
+    thirdSound.pause();
+    fifthSound.pause();
     setVolumeOn(prev => !prev);
   };
 
   return (
     <div className={!startGame || showSettings ? [classes.Content, classes.NoScroll].join(' ') : classes.Content}>
-      <h1 className={classes.Title}>Interval Trainer</h1>
+      <h1 className={classes.Title}>Chord Trainer</h1>
       <div className={classes.TopBar}>
         <TopBtns
           showSettings={() => setShowSettings(true)}
           pause={() => setStartGame(false)}
           repeat={repeatNotes}
           started={startGame}
-          mode="Interval"
+          mode="Chord"
           clicked={toggleAudio}
           volumeOn={volumeOn} />
-        <h1 className={classes.InnerTitle}>Interval Trainer</h1>
+        <h1 className={classes.InnerTitle}>Chord Trainer</h1>
         <SessionStats
           animCorrect={animCorrect}
           animWrong={animWrong}
@@ -148,36 +163,36 @@ const IntervalTrainer = props => {
       </div>
       <Guitar
         rootNote={rootNote}
-        otherNotes={[otherNote]}
+        otherNotes={[thirdNote, fifthNote]}
         noAnim={noCorrAnim} />
       <NoteContainer
-        disabledBtns={disabledIntervals}
+        disabledBtns={disabledRoots}
         checkAnswer={checkAnswer}
-        mode="Interval" />
+        mode="Chord"
+        selectedChord={selectedChord}
+        setSelected={(int) => setSelectedChord(int)} />
       <StartPanel
-        mode="Interval"
+        mode="Chord"
         started={startGameHandler}
         startGame={startGame} />
       <SettingsPanel
         showSettings={showSettings}
         ref={settingsBackdrop}
         close={closeSettingsHandler}
-        mode="Interval"
-        toggle={toggleInterval}
-        disabledBtns={disabledIntervals}
+        mode="Chord"
+        toggle={toggleChord}
+        disabledBtns={disabledRoots}
         showErr={showSettingsErr}
         errMsg={settingsErrMsg}
-        setType={(type) => setIntervalType(type)}
-        intType={intervalType} />
+        setType={(type) => setChordType(type)}
+        intType={chordType} />
     </div>
   );
 };
 
 const mapDispatchToProps = dispatch => ({
   onCorrect: () => dispatch(incCorrect()),
-  onWrong: () => dispatch(incWrong()),
-  onCorrectInterval: (int) => dispatch(incCorrectInterval(int)),
-  onWrongInterval: (int) => dispatch(incWrongInterval(int))
+  onWrong: () => dispatch(incWrong())
 });
 
-export default connect(null, mapDispatchToProps)(IntervalTrainer);
+export default connect(null, mapDispatchToProps)(ChordTrainer);

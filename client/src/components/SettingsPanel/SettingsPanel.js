@@ -5,13 +5,14 @@ import { intervals, aScale } from '../../utils/intervalFuncs';
 
 const SettingsPanel = React.forwardRef((props, ref) => (
   <div className={props.showSettings ? classes.ShowSettings : classes.Hide}
-  onClick={props.outsideClose} ref={ref}>
+  onClick={(e) => props.close(false, e)} ref={ref}>
     <div className={classes.SettingsDiv}>
       <div className={classes.SettingsTop}>
-        <CloseBtn close={props.close} />
+        <CloseBtn close={(e) => props.close(true, e)} />
       </div>
       <span className={classes.SettingsTitle}>
-        {props.mode === 'Interval' ? 'Enable or disable individual intervals' : 'Enable or disable individual notes'}
+        {props.mode === 'Interval' ? 'Enable or disable individual intervals' : props.mode === 'Chord' ?
+        'Enable or disable individual chords' : 'Enable or disable individual notes'}
       </span>
       <div className={classes.SettingsIntervals}>
         {props.mode === 'Interval' ?
@@ -31,22 +32,40 @@ const SettingsPanel = React.forwardRef((props, ref) => (
         }
       </div>
       <span className={props.showErr ? classes.SettingsErrMsg : classes.HideOpacity}>{props.errMsg}</span>
-      {props.mode !== 'Interval' ? null : (
-        <React.Fragment>
-          <span className={classes.SettingsTitle}>Show only ascending or descending intervals</span>
-          <div className={classes.SettingsBtns}>
-            <button onClick={() => props.setType('Ascending')}
-            className={props.intType === 'Ascending' ? classes.BtnSelected : classes.BtnUnselected}>
-            Ascending</button>
-            <button onClick={() => props.setType('Descending')}
-            className={props.intType === 'Descending' ? classes.BtnSelected : classes.BtnUnselected}>
-            Descending</button>
-            <button onClick={() => props.setType('Both')}
-            className={props.intType === 'Both' ? classes.BtnSelected : classes.BtnUnselected}>
-            Both</button>
-          </div>
-        </React.Fragment>
-      )}
+      {props.mode === 'Interval' ?
+        (
+          <React.Fragment>
+            <span className={classes.SettingsTitle}>Show only ascending or descending intervals</span>
+            <div className={classes.SettingsBtns}>
+              <button onClick={() => props.setType('Ascending')}
+              className={props.intType === 'Ascending' ? classes.BtnSelected : classes.BtnUnselected}>
+              Ascending</button>
+              <button onClick={() => props.setType('Descending')}
+              className={props.intType === 'Descending' ? classes.BtnSelected : classes.BtnUnselected}>
+              Descending</button>
+              <button onClick={() => props.setType('Both')}
+              className={props.intType === 'Both' ? classes.BtnSelected : classes.BtnUnselected}>
+              Both</button>
+            </div>
+          </React.Fragment>
+        ) : props.mode === 'Chord' ?
+        (
+          <React.Fragment>
+            <span className={classes.SettingsTitle}>Show only major or minor chords</span>
+            <div className={classes.SettingsBtns}>
+              <button onClick={() => props.setType('Major')}
+              className={props.intType === 'Major' ? classes.BtnSelected : classes.BtnUnselected}>
+              Major</button>
+              <button onClick={() => props.setType('Minor')}
+              className={props.intType === 'Minor' ? classes.BtnSelected : classes.BtnUnselected}>
+              Minor</button>
+              <button onClick={() => props.setType('Both')}
+              className={props.intType === 'Both' ? classes.BtnSelected : classes.BtnUnselected}>
+              Both</button>
+            </div>
+          </React.Fragment>
+        ) : null
+      }
     </div>
   </div>
 ));

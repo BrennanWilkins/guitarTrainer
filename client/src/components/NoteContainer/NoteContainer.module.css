@@ -1,3 +1,26 @@
+.ChordTypes {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.ActiveType {
+  width: 100px;
+  height: 50px;
+  background: #eee;
+  border: 3px solid rgb(16, 30, 117);
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+}
+.InactiveType {
+  width: 100px;
+  height: 50px;
+  background: #ddd;
+  border: 3px solid #ddd;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+}
 .NoteContainer {
   margin-top: 20px;
   display: flex;

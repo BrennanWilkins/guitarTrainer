@@ -46,6 +46,7 @@ export const calcInterval = (root, other) => {
 // takes optional arr of notes not to use
 export const getRandNote = (disabledNotes) => {
   let rand = Math.floor(Math.random() * 78);
+  if (!disabledNotes) { return notes[rand]; }
   while (disabledNotes.includes(getNoteShorthand(notes[rand]))) {
     rand = Math.floor(Math.random() * 78);
   }
@@ -89,3 +90,24 @@ export const generateInterval = (disabledIntervals, intervalType) => {
   }
   return [note1, note2, interval];
 };
+
+// returns 3 random notes & their chord name
+// takes optional arr of notes not to use
+// takes optional string of chordType to use (Major/Minor/Both)
+export const getMajMinChord = (disabledRoots, chordType) => {
+  const root = getRandNote(disabledRoots);
+  let third = getRandNote();
+  let fifth = getRandNote();
+  const intervals = chordType === 'Both' ? ['b3', '3'] : chordType === 'Major' ? ['3'] : ['b3'];
+  // interval bw root & third must be b3/3 & must be on diff strings
+  while (!intervals.includes(calcInterval(root, third)) || third.slice(third.length - 1) === root.slice(root.length - 1)) {
+    third = getRandNote();
+  }
+  // interval bw root & fifth must be 5 & fifth must be on diff string than root/third
+  while (calcInterval(root, fifth) !== '5' || root.slice(root.length - 1) === fifth.slice(fifth.length - 1) ||
+  fifth.slice(fifth.length - 1) === third.slice(third.length - 1)) {
+    fifth = getRandNote();
+  }
+  const chord = calcInterval(root, third);
+  return [root, third, fifth, chord];
+}

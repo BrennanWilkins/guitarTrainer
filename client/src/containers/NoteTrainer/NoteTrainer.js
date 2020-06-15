@@ -7,8 +7,10 @@ import SessionStats from '../../components/SessionStats/SessionStats';
 import StartPanel from '../../components/StartPanel/StartPanel';
 import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
 import NoteContainer from '../../components/NoteContainer/NoteContainer';
+import { connect } from 'react-redux';
+import { incCorrect, incWrong, incCorrectNote, incWrongNote } from '../../store/actions/index';
 
-const NoteTrainer = () => {
+const NoteTrainer = props => {
   const [sessionCorrect, setSessionCorrect] = useState(0);
   const [animCorrect, setAnimCorrect] = useState(false);
   const [sessionWrong, setSessionWrong] = useState(0);
@@ -24,6 +26,7 @@ const NoteTrainer = () => {
   const [noteSound, setNoteSound] = useState();
   const [prevShortNote, setPrevShortNote] = useState();
   const [volumeOn, setVolumeOn] = useState(true);
+  const [noCorrAnim, setNoCorrAnim] = useState(false);
 
   const settingsBackdrop = useRef();
 
@@ -47,13 +50,18 @@ const NoteTrainer = () => {
 
   const checkAnswer = (e) => {
     if (e.target.value === shortNote) {
+      props.onCorrect();
+      props.onCorrectNote(shortNote);
       setSessionCorrect(prevCorrect => prevCorrect + 1);
       setAnimCorrect(true);
       setTimeout(() => {
         setAnimCorrect(false);
+        setNoCorrAnim(false);
         gameLoop();
       }, 300);
     } else {
+      props.onWrong();
+      props.onWrongNote(shortNote);
       setAnimWrong(true);
       setTimeout(() => {
         setAnimWrong(false);
@@ -64,6 +72,7 @@ const NoteTrainer = () => {
 
   const repeatNote = () => {
     if (!volumeOn) { return; }
+    noteSound.currentTime = 0;
     noteSound.play();
   };
 
@@ -84,41 +93,70 @@ const NoteTrainer = () => {
     }
   };
 
-  const closeSettingsHandler = () => {
-    if (showSettingsErr) { return; }
+  const closeSettingsHandler = (always, e) => {
+    // always closes if close btn clicked
+    if ((showSettingsErr || e.target !== settingsBackdrop.current) && !always) { return; }
     setShowSettings(false);
     if (disabledNotes.includes(shortNote) || shortNote !== prevShortNote) {
+      setNoCorrAnim(true);
       setPrevShortNote(shortNote);
       gameLoop();
     }
   };
 
-  const closeSettingsOutsideHandler = (e) => {
-    if (showSettingsErr || e.target !== settingsBackdrop.current) { return; }
-    setShowSettings(false);
-    if (disabledNotes.includes(shortNote) || shortNote !== prevShortNote) {
-      setPrevShortNote(shortNote);
-      gameLoop();
-    }
+  const toggleAudio = () => {
+    noteSound.pause();
+    setVolumeOn(prevState => !prevState);
   };
 
   return (
-    <div className={classes.Content}>
+    <div className={!startGame || showSettings ? [classes.Content, classes.NoScroll].join(' ') : classes.Content}>
       <h1 className={classes.Title}>Note Trainer</h1>
       <div className={classes.TopBar}>
-        <TopBtns showSettings={() => setShowSettings(true)} pause={() => setStartGame(false)} repeat={repeatNote}
-        started={startGame} mode="Note" clicked={() => setVolumeOn(prevState => !prevState)} volumeOn={volumeOn} />
+        <TopBtns
+          showSettings={() => setShowSettings(true)}
+          pause={() => setStartGame(false)}
+          repeat={repeatNote}
+          started={startGame}
+          mode="Note"
+          volumeOn={volumeOn}
+          clicked={toggleAudio} />
         <h1 className={classes.InnerTitle}>Note Trainer</h1>
-        <SessionStats animCorrect={animCorrect} animWrong={animWrong} correct={sessionCorrect} wrong={sessionWrong} />
+        <SessionStats
+          animCorrect={animCorrect}
+          animWrong={animWrong}
+          correct={sessionCorrect}
+          wrong={sessionWrong} />
       </div>
-      <Guitar otherNote={note} />
-      <NoteContainer disabledBtns={disabledNotes} checkAnswer={checkAnswer} mode="Note" />
-      <StartPanel mode="Note" started={startGameHandler} startGame={startGame} />
-      <SettingsPanel mode="Note" showSettings={showSettings} disabledBtns={disabledNotes} toggle={toggleNote}
-      outsideClose={closeSettingsOutsideHandler} ref={settingsBackdrop} close={closeSettingsHandler}
-      showErr={showSettingsErr} errMsg={settingsErrMsg} />
+      <Guitar
+        otherNotes={[note]}
+        noAnim={noCorrAnim} />
+      <NoteContainer
+        disabledBtns={disabledNotes}
+        checkAnswer={checkAnswer}
+        mode="Note" />
+      <StartPanel
+        mode="Note"
+        started={startGameHandler}
+        startGame={startGame} />
+      <SettingsPanel
+        mode="Note"
+        showSettings={showSettings}
+        disabledBtns={disabledNotes}
+        ref={settingsBackdrop}
+        close={closeSettingsHandler}
+        showErr={showSettingsErr}
+        errMsg={settingsErrMsg}
+        toggle={toggleNote} />
     </div>
   );
 };
 
-export default NoteTrainer;
+const mapDispatchToProps = dispatch => ({
+  onCorrect: () => dispatch(incCorrect()),
+  onWrong: () => dispatch(incWrong()),
+  onCorrectNote: (note) => dispatch(incCorrectNote(note)),
+  onWrongNote: (note) => dispatch(incWrongNote(note))
+});
+
+export default connect(null, mapDispatchToProps)(NoteTrainer);

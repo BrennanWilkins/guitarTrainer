@@ -9,6 +9,7 @@
   background: rgb(2, 30, 57);
   color: white;
   height: 60px;
+  z-index: 90;
 }
 .HomeLink {
   height: 100%;

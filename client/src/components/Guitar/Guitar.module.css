@@ -160,14 +160,25 @@
 }
 .RootNote {
   background: rgb(23, 27, 130);
-  transition: opacity 500ms ease-out;
+  transition: opacity 1000ms ease-out;
 }
 .OtherNote {
   background: rgb(150, 38, 13);
-  transition: opacity 500ms ease-out;
+  transition: opacity 1000ms ease-out;
 }
 .HiddenNote {
+	background: rgb(65, 142, 69);
+	transition: opacity 1600ms ease-out;
   opacity: 0;
+	animation: scaleUp 1600ms ease-out;
+}
+.HideNoAnim {
+	opacity: 0;
+}
+@keyframes scaleUp {
+	0% { transform: scale(1); }
+	50% { transform: scale(1.2); }
+	100% { transform: scale(1); }
 }
 @media (max-width: 1020px) {
   .GuitarInnerContainer {

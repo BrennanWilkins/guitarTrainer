@@ -10,7 +10,7 @@ const TopBtns = props => (
       {repeatIcon}
       <span className={props.started ? classes.Hidden : classes.ArrowUp}>{arrowUp}</span>
       <span className={props.started ? classes.Hidden : classes.RepeatText}>
-        {props.mode === 'Interval'? 'Repeat the notes' : 'Repeat the note'}
+        {props.mode === 'Interval' || props.mode === 'Chord' ? 'Repeat the notes' : 'Repeat the note'}
       </span>
     </button>
     <button onClick={props.clicked}>{props.volumeOn ? volumeOnIcon : volumeOffIcon}</button>

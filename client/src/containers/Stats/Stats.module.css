@@ -1,0 +1,112 @@
+.Content {
+  position: absolute;
+  top: 60px;
+  height: calc(100% - 60px);
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.Title {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  color: rgb(2, 30, 57, 0.9);
+}
+.TopStats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.TopStatNums div {
+  display: inline-block;
+  margin: 0 10px 10px;
+}
+.NoteStats a, .IntervalStats a {
+  display: none;
+}
+.Block {
+  position: relative;
+  top: -12px;
+  width: 100px;
+  height: 10px;
+  background: white;
+}
+.NoteStats {
+  width: 95vw;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+.IntervalStats {
+  width: 95vw;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 20px;
+}
+.ResetDiv {
+  display: flex;
+  justify-content: center;
+}
+.ResetDiv button {
+  background: #eee;
+  border: 3px solid rgb(16, 30, 117);
+  width: 120px;
+  height: 50px;
+  font-size: 16px;
+  margin: 10px 5px 10px;
+  border-radius: 3px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+}
+.Hide {
+  display: none;
+}
+.ResetBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 70;
+  background: rgb(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ResetPanel {
+  background: white;
+  box-shadow: 0 1px 10px 0 rgba(0,0,0,0.75);
+  border-radius: 3px;
+  width: 250px;
+  height: 130px;
+  font-weight: bold;
+}
+.Reset {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Reset p {
+  margin: -10px 0 15px;
+}
+.Reset button {
+  padding: 5px;
+  background: #eee;
+  border: 1px solid rgb(16, 30, 117);
+  border-radius: 3px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+}
+@media (max-height: 500px) {
+  .Content {
+    top: 50px;
+    height: calc(100% - 50px);
+  }
+}

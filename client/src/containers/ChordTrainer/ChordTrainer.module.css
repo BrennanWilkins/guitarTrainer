@@ -3,7 +3,8 @@
   top: 60px;
   height: calc(100% - 60px);
   width: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .NoScroll {
   overflow-y: hidden;
@@ -58,10 +59,5 @@
 @media (max-width: 465px) {
   .Content {
     overflow-x: auto;
-  }
-}
-@media (max-height: 340px) {
-  .Content {
-    overflow-y: auto;
   }
 }
