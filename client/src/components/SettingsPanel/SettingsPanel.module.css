@@ -23,6 +23,7 @@
   height: 55%;
   max-width: 500px;
   max-height: 300px;
+  overflow-y: auto;
 }
 .SettingsTop {
   width: 100%;
@@ -82,7 +83,7 @@
 .SettingsBtns button {
   width: 85px;
   height: 40px;
-  margin: 10px 5px 5px;
+  margin: 10px 5px 15px;
   border-radius: 3px;
   font-weight: bold;
   cursor: pointer;
@@ -96,6 +97,66 @@
   background: #ddd;
   border: 2px solid #ddd;
 }
+.Question {
+  font-size: 20px;
+  position: relative;
+  top: 4px;
+  left: 10px;
+  cursor: pointer;
+}
+.InfoText {
+  color: rgb(2, 30, 57, 0.9);
+  font-size: 14px;
+  text-align: center;
+  width: 75%;
+}
+.Switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin: 10px auto 30px;
+}
+.Switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.Slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ddd;
+  -webkit-transition: 300ms;
+  transition: 300ms;
+  border-radius: 34px;
+  width: 60px;
+  height: 34px;
+}
+.Slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 300ms;
+  transition: 300ms;
+  border-radius: 50%;
+}
+.Switch input:checked + .Slider {
+  background: rgb(2, 30, 57, 0.9);
+}
+.Switch input:checked + .Slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
 @media (max-width: 1124px) {
   .SettingsIntervals {
     width: 70%;
@@ -135,6 +196,5 @@
 @media (max-height: 530px) {
   .SettingsDiv {
     padding-bottom: 10px;
-    overflow-y: auto;
   }
 }

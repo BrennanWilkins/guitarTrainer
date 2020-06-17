@@ -29,6 +29,14 @@
   z-index: 90;
   top: 135px;
 }
+.NoSpin {
+  display: flex;
+}
+.Spin {
+  display: flex;
+  transform: rotate(180deg);
+  transition: transform 500ms;
+}
 @media (max-height: 520px) {
   .RepeatText {
     top: 120px;

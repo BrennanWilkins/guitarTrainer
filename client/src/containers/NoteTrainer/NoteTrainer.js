@@ -1,14 +1,15 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import classes from './NoteTrainer.module.css';
 import Guitar from '../../components/Guitar/Guitar';
-import { getRandNote, getNoteShorthand } from '../../utils/intervalFuncs';
+import { getRandNote, getNoteShorthand, getRandNotePracMode } from '../../utils/intervalFuncs';
 import TopBtns from '../../components/TrainerTopBtns/TrainerTopBtns';
 import SessionStats from '../../components/SessionStats/SessionStats';
 import StartPanel from '../../components/StartPanel/StartPanel';
 import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
 import NoteContainer from '../../components/NoteContainer/NoteContainer';
 import { connect } from 'react-redux';
-import { incCorrect, incWrong, incCorrectNote, incWrongNote } from '../../store/actions/index';
+import { incCorrect, incWrong, incCorrectNote, incWrongNote, setPracModeNote } from '../../store/actions/index';
+import GoalPanel from '../../components/GoalPanel/GoalPanel';
 
 const NoteTrainer = props => {
   const [sessionCorrect, setSessionCorrect] = useState(0);
@@ -27,19 +28,29 @@ const NoteTrainer = props => {
   const [prevShortNote, setPrevShortNote] = useState();
   const [volumeOn, setVolumeOn] = useState(true);
   const [noCorrAnim, setNoCorrAnim] = useState(false);
+  const [showGoalPanel, setShowGoalPanel] = useState(false);
 
   const settingsBackdrop = useRef();
+
+  useEffect(() => {
+    return () => props.setPracMode(false);
+  }, []);
 
   const startGameHandler = () => {
     if (!gameFirstStart) {
       setGameFirstStart(true);
       gameLoop();
+      setTimeout(() => setShowGoalPanel(true), 2000);
     }
     setStartGame(true);
   };
 
   const gameLoop = () => {
-    const randNote = getRandNote(disabledNotes);
+    const randNote = (
+      props.pracMode ?
+      getRandNotePracMode(disabledNotes, props.notesCorrect, props.notesWrong) :
+      getRandNote(disabledNotes)
+    );
     setNote(randNote);
     setShortNote(getNoteShorthand(randNote));
     setPrevShortNote(getNoteShorthand(randNote));
@@ -111,6 +122,7 @@ const NoteTrainer = props => {
 
   return (
     <div className={!startGame || showSettings ? [classes.Content, classes.NoScroll].join(' ') : classes.Content}>
+      <GoalPanel show={showGoalPanel} />
       <h1 className={classes.Title}>Note Trainer</h1>
       <div className={classes.TopBar}>
         <TopBtns
@@ -147,16 +159,25 @@ const NoteTrainer = props => {
         close={closeSettingsHandler}
         showErr={showSettingsErr}
         errMsg={settingsErrMsg}
+        pracMode={props.pracMode}
+        setMode={() => props.setPracMode(!props.pracMode)}
         toggle={toggleNote} />
     </div>
   );
 };
 
+const mapStateToProps = state => ({
+  pracMode: state.stats.pracModeNote,
+  notesCorrect: state.stats.notesCorrect,
+  notesWrong: state.stats.notesWrong
+});
+
 const mapDispatchToProps = dispatch => ({
   onCorrect: () => dispatch(incCorrect()),
   onWrong: () => dispatch(incWrong()),
   onCorrectNote: (note) => dispatch(incCorrectNote(note)),
-  onWrongNote: (note) => dispatch(incWrongNote(note))
+  onWrongNote: (note) => dispatch(incWrongNote(note)),
+  setPracMode: (bool) => dispatch(setPracModeNote(bool))
 });
 
-export default connect(null, mapDispatchToProps)(NoteTrainer);
+export default connect(mapStateToProps, mapDispatchToProps)(NoteTrainer);

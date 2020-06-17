@@ -65,7 +65,10 @@
 .SideToggle div {
   width: 90%;
   height: 3px;
-  background-color: white;
+  background: white;
+}
+.SideToggle:hover div {
+  background: #8089cd;
 }
 .LeftNavBar {
   height: 100%;

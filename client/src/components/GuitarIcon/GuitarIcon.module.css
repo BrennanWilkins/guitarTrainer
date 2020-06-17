@@ -11,3 +11,9 @@
   height: 30px;
   filter: invert(100%);
 }
+.Icon:hover a {
+  color: #8089cd;
+}
+.Icon:hover img {
+  filter: invert(59%) sepia(83%) saturate(602%) hue-rotate(197deg) brightness(85%) contrast(87%);
+}

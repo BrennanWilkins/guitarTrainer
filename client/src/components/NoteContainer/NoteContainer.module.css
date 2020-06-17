@@ -43,12 +43,15 @@
   border: 3px solid rgb(16, 30, 117);
   background: rgb(16, 30, 117, 0.1);
   outline: none;
+  transition: background 150ms;
 }
 .NoteDisabled {
   display: none;
 }
 .NoteEnabled:hover {
   background: rgb(16, 30, 117, 0.3);
+  transform: scale(1.05);
+  transition: all 150ms;
 }
 @media (max-width: 1020px) {
   .NoteContainer {

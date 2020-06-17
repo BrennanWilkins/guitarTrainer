@@ -36,7 +36,9 @@ const initialState = {
   intervalsCorrect: { ...initialIntervals },
   intervalsWrong: { ...initialIntervals },
   notesCorrect: { ...initialNotes },
-  notesWrong: { ...initialNotes }
+  notesWrong: { ...initialNotes },
+  pracModeInt: false,
+  pracModeNote: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -92,6 +94,16 @@ const reducer = (state = initialState, action) => {
           ...state.notesWrong,
           [action.note]: state.notesWrong[action.note] + 1
         }
+      };
+    case actionTypes.SET_PRAC_MODE_INT:
+      return {
+        ...state,
+        pracModeInt: action.bool
+      };
+    case actionTypes.SET_PRAC_MODE_NOTE:
+      return {
+        ...state,
+        pracModeNote: action.bool
       };
     default: return state;
   }

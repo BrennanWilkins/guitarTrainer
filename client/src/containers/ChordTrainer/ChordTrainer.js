@@ -9,6 +9,7 @@ import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
 import NoteContainer from '../../components/NoteContainer/NoteContainer';
 import { connect } from 'react-redux';
 import { incCorrect, incWrong } from '../../store/actions/index';
+import GoalPanel from '../../components/GoalPanel/GoalPanel';
 
 const ChordTrainer = props => {
   const [sessionCorrect, setSessionCorrect] = useState(0);
@@ -33,6 +34,7 @@ const ChordTrainer = props => {
   const [volumeOn, setVolumeOn] = useState(true);
   const [selectedChord, setSelectedChord] = useState('3');
   const [noCorrAnim, setNoCorrAnim] = useState(false);
+  const [showGoalPanel, setShowGoalPanel] = useState(false);
 
   const settingsBackdrop = useRef();
 
@@ -40,6 +42,7 @@ const ChordTrainer = props => {
     if (!gameFirstStart) {
       setGameFirstStart(true);
       gameLoop();
+      setTimeout(() => setShowGoalPanel(true), 2000);
     }
     setStartGame(true);
   };
@@ -144,6 +147,7 @@ const ChordTrainer = props => {
 
   return (
     <div className={!startGame || showSettings ? [classes.Content, classes.NoScroll].join(' ') : classes.Content}>
+      <GoalPanel show={showGoalPanel} />
       <h1 className={classes.Title}>Chord Trainer</h1>
       <div className={classes.TopBar}>
         <TopBtns

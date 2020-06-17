@@ -53,6 +53,35 @@ export const getRandNote = (disabledNotes) => {
   return notes[rand];
 };
 
+// takes optional arr of notes not to use
+// generates notes w less accuracy more often
+export const getRandNotePracMode = (disabledNotes, notesCorrect, notesWrong) => {
+  const probability = {};
+  let ratioTotal = 0;
+  for (let note of aScale) {
+    if (!disabledNotes.includes(note)) {
+      let total = notesCorrect[note] + notesWrong[note];
+      let percWrong = total === 0 ? 1 : notesWrong[note] / total;
+      percWrong = percWrong === 0 ? 0.1 : percWrong;
+      ratioTotal += percWrong;
+      probability[note] = percWrong;
+    }
+  }
+  for (let note in probability) {
+    probability[note] = probability[note] / ratioTotal;
+  }
+  let note, sum = 0, r = Math.random();
+  for (let i in probability) {
+    sum += probability[i];
+    if (r <= sum) { note = i; break; };
+  }
+  let rand = Math.floor(Math.random() * 78);
+  while (getNoteShorthand(notes[rand]) !== note) {
+    rand = Math.floor(Math.random() * 78);
+  }
+  return notes[rand];
+};
+
 // continues finding 2 random notes till they aren't the same
 // takes optional intervalType for ascending/descending intervals only
 export const getRandNotes = (intervalType) => {
@@ -90,6 +119,68 @@ export const generateInterval = (disabledIntervals, intervalType) => {
   }
   return [note1, note2, interval];
 };
+
+// return random notes & their interval
+// takes optional disabledIntervals which includes intervals not to use
+// increases the frequency of intervals based on accuracy
+export const generateIntervalPracMode = (disabledIntervals, intervalType, intsCorrect, intsWrong) => {
+  const probability = {};
+  let ratioTotal = 0;
+  for (let int of intervals) {
+    if (!disabledIntervals.includes(int)) {
+      let total = intsCorrect[int] + intsWrong[int];
+      let percWrong = total === 0 ? 1 : intsWrong[int] / total;
+      percWrong = percWrong === 0 ? 0.1 : percWrong;
+      ratioTotal += percWrong;
+      probability[int] = percWrong;
+    }
+  }
+  for (let int in probability) {
+    probability[int] = probability[int] / ratioTotal;
+  }
+  let int, sum = 0, r = Math.random();
+  for (let i in probability) {
+    sum += probability[i];
+    if (r <= sum) { int = i; break; };
+  }
+  let [note1, note2] = getNotesByInterval(int, intervalType);
+  return [note1, note2, int];
+};
+
+// returns 2 notes based on interval/interval type it should be
+const getNotesByInterval = (int, intervalType) => {
+  let rand1 = Math.floor(Math.random() * 78);
+  let rand2 = Math.floor(Math.random() * 78);
+  let note1 = notes[rand1];
+  let note2 = notes[rand2];
+  let interval = calcInterval(note1, note2);
+  if (intervalType === 'Ascending') {
+    while (interval !== int || rand1 >= rand2) {
+      rand1 = Math.floor(Math.random() * 78);
+      rand2 = Math.floor(Math.random() * 78);
+      note1 = notes[rand1];
+      note2 = notes[rand2];
+      interval = calcInterval(note1, note2);
+    }
+  } else if (intervalType === 'Descending') {
+    while (interval !== int || rand1 <= rand2) {
+      rand1 = Math.floor(Math.random() * 78);
+      rand2 = Math.floor(Math.random() * 78);
+      note1 = notes[rand1];
+      note2 = notes[rand2];
+      interval = calcInterval(note1, note2);
+    }
+  } else {
+    while (interval !== int || rand1 === rand2) {
+      rand1 = Math.floor(Math.random() * 78);
+      rand2 = Math.floor(Math.random() * 78);
+      note1 = notes[rand1];
+      note2 = notes[rand2];
+      interval = calcInterval(note1, note2);
+    }
+  }
+  return [note1, note2];
+}
 
 // returns 3 random notes & their chord name
 // takes optional arr of notes not to use

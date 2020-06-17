@@ -1,14 +1,15 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import classes from './IntervalTrainer.module.css';
 import Guitar from '../../components/Guitar/Guitar';
-import { generateInterval } from '../../utils/intervalFuncs';
+import { generateInterval, generateIntervalPracMode } from '../../utils/intervalFuncs';
 import TopBtns from '../../components/TrainerTopBtns/TrainerTopBtns';
 import SessionStats from '../../components/SessionStats/SessionStats';
 import StartPanel from '../../components/StartPanel/StartPanel';
 import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
 import NoteContainer from '../../components/NoteContainer/NoteContainer';
 import { connect } from 'react-redux';
-import { incCorrect, incWrong, incCorrectInterval, incWrongInterval } from '../../store/actions/index';
+import { incCorrect, incWrong, incCorrectInterval, incWrongInterval, setPracModeInt } from '../../store/actions/index';
+import GoalPanel from '../../components/GoalPanel/GoalPanel';
 
 const IntervalTrainer = props => {
   const [sessionCorrect, setSessionCorrect] = useState(0);
@@ -30,19 +31,30 @@ const IntervalTrainer = props => {
   const [prevIntervalType, setPrevIntervalType] = useState('Ascending');
   const [volumeOn, setVolumeOn] = useState(true);
   const [noCorrAnim, setNoCorrAnim] = useState(false);
+  const [showGoalPanel, setShowGoalPanel] = useState(false);
 
   const settingsBackdrop = useRef();
+
+  useEffect(() => {
+    return () => props.setPracMode(false);
+  }, []);
 
   const startGameHandler = () => {
     if (!gameFirstStart) {
       setGameFirstStart(true);
       gameLoop();
+      setTimeout(() => setShowGoalPanel(true), 2000);
     }
     setStartGame(true);
   };
 
   const gameLoop = () => {
-    const [root, other, interval] = generateInterval(disabledIntervals, intervalType);
+    let root, other, interval;
+    if (props.pracMode) {
+      [root, other, interval] = generateIntervalPracMode(disabledIntervals, intervalType, props.intsCorrect, props.intsWrong);
+    } else {
+      [root, other, interval] = generateInterval(disabledIntervals, intervalType);
+    }
     const newRootSound = new Audio(`/assets/notes/${root}.mp3`);
     const newOtherSound = new Audio(`/assets/notes/${other}.mp3`);
     setRootNote(root);
@@ -129,6 +141,7 @@ const IntervalTrainer = props => {
 
   return (
     <div className={!startGame || showSettings ? [classes.Content, classes.NoScroll].join(' ') : classes.Content}>
+      <GoalPanel show={showGoalPanel} />
       <h1 className={classes.Title}>Interval Trainer</h1>
       <div className={classes.TopBar}>
         <TopBtns
@@ -168,16 +181,25 @@ const IntervalTrainer = props => {
         showErr={showSettingsErr}
         errMsg={settingsErrMsg}
         setType={(type) => setIntervalType(type)}
+        pracMode={props.pracMode}
+        setMode={() => props.setPracMode(!props.pracMode)}
         intType={intervalType} />
     </div>
   );
 };
 
+const mapStateToProps = state => ({
+  pracMode: state.stats.pracModeInt,
+  intsCorrect: state.stats.intervalsCorrect,
+  intsWrong: state.stats.intervalsWrong
+});
+
 const mapDispatchToProps = dispatch => ({
   onCorrect: () => dispatch(incCorrect()),
   onWrong: () => dispatch(incWrong()),
   onCorrectInterval: (int) => dispatch(incCorrectInterval(int)),
-  onWrongInterval: (int) => dispatch(incWrongInterval(int))
+  onWrongInterval: (int) => dispatch(incWrongInterval(int)),
+  setPracMode: (bool) => dispatch(setPracModeInt(bool))
 });
 
-export default connect(null, mapDispatchToProps)(IntervalTrainer);
+export default connect(mapStateToProps, mapDispatchToProps)(IntervalTrainer);
