@@ -8,8 +8,9 @@ import StartPanel from '../../components/StartPanel/StartPanel';
 import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
 import NoteContainer from '../../components/NoteContainer/NoteContainer';
 import { connect } from 'react-redux';
-import { incCorrect, incWrong } from '../../store/actions/index';
+import { incCorrectChord, incWrongChord } from '../../store/actions/index';
 import GoalPanel from '../../components/GoalPanel/GoalPanel';
+import GoalReachedPanel from '../../components/GoalReachedPanel/GoalReachedPanel';
 
 const ChordTrainer = props => {
   const [sessionCorrect, setSessionCorrect] = useState(0);
@@ -35,6 +36,7 @@ const ChordTrainer = props => {
   const [selectedChord, setSelectedChord] = useState('3');
   const [noCorrAnim, setNoCorrAnim] = useState(false);
   const [showGoalPanel, setShowGoalPanel] = useState(false);
+  const [showGoalReached, setShowGoalReached] = useState(false);
 
   const settingsBackdrop = useRef();
 
@@ -89,7 +91,10 @@ const ChordTrainer = props => {
       rootSound.muted = true;
       thirdSound.muted = true;
       fifthSound.muted = true;
-      props.onCorrect();
+      props.incCorrect();
+      if (props.chordGoal > 0 && props.totCorrect + 1 >= props.chordGoal) {
+        setShowGoalReached(true);
+      }
       setSessionCorrect(prevCorrect => prevCorrect + 1);
       setAnimCorrect(true);
       setTimeout(() => {
@@ -98,7 +103,7 @@ const ChordTrainer = props => {
         gameLoop();
       }, 300);
     } else {
-      props.onWrong();
+      props.incWrong();
       setAnimWrong(true);
       setTimeout(() => {
         setAnimWrong(false);
@@ -148,6 +153,7 @@ const ChordTrainer = props => {
   return (
     <div className={!startGame || showSettings ? [classes.Content, classes.NoScroll].join(' ') : classes.Content}>
       <GoalPanel show={showGoalPanel} />
+      <GoalReachedPanel show={showGoalReached} mode="Chord" close={() => setShowGoalReached(false)} />
       <h1 className={classes.Title}>Chord Trainer</h1>
       <div className={classes.TopBar}>
         <TopBtns
@@ -194,9 +200,14 @@ const ChordTrainer = props => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  onCorrect: () => dispatch(incCorrect()),
-  onWrong: () => dispatch(incWrong())
+const mapStateToProps = state => ({
+  totCorrect: state.stats.totChordCorrect,
+  chordGoal: state.goals.chordGoal
 });
 
-export default connect(null, mapDispatchToProps)(ChordTrainer);
+const mapDispatchToProps = dispatch => ({
+  incCorrect: () => dispatch(incCorrectChord()),
+  incWrong: () => dispatch(incWrongChord())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChordTrainer);

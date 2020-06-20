@@ -8,8 +8,9 @@ import StartPanel from '../../components/StartPanel/StartPanel';
 import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
 import NoteContainer from '../../components/NoteContainer/NoteContainer';
 import { connect } from 'react-redux';
-import { incCorrect, incWrong, incCorrectNote, incWrongNote, setPracModeNote } from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 import GoalPanel from '../../components/GoalPanel/GoalPanel';
+import GoalReachedPanel from '../../components/GoalReachedPanel/GoalReachedPanel';
 
 const NoteTrainer = props => {
   const [sessionCorrect, setSessionCorrect] = useState(0);
@@ -29,6 +30,7 @@ const NoteTrainer = props => {
   const [volumeOn, setVolumeOn] = useState(true);
   const [noCorrAnim, setNoCorrAnim] = useState(false);
   const [showGoalPanel, setShowGoalPanel] = useState(false);
+  const [showGoalReached, setShowGoalReached] = useState(false);
 
   const settingsBackdrop = useRef();
 
@@ -61,8 +63,10 @@ const NoteTrainer = props => {
 
   const checkAnswer = (e) => {
     if (e.target.value === shortNote) {
-      props.onCorrect();
       props.onCorrectNote(shortNote);
+      if (props.noteGoal > 0 && props.totNoteCorrect + 1 >= props.noteGoal) {
+        setShowGoalReached(true);
+      }
       setSessionCorrect(prevCorrect => prevCorrect + 1);
       setAnimCorrect(true);
       setTimeout(() => {
@@ -71,7 +75,6 @@ const NoteTrainer = props => {
         gameLoop();
       }, 300);
     } else {
-      props.onWrong();
       props.onWrongNote(shortNote);
       setAnimWrong(true);
       setTimeout(() => {
@@ -123,11 +126,13 @@ const NoteTrainer = props => {
   return (
     <div className={!startGame || showSettings ? [classes.Content, classes.NoScroll].join(' ') : classes.Content}>
       <GoalPanel show={showGoalPanel} />
+      <GoalReachedPanel show={showGoalReached && !props.noteGoalReached} mode="Note"
+      close={() => { setShowGoalReached(false); props.changeNoteGoalReached(true); }} />
       <h1 className={classes.Title}>Note Trainer</h1>
       <div className={classes.TopBar}>
         <TopBtns
-          showSettings={() => setShowSettings(true)}
-          pause={() => setStartGame(false)}
+          showSettings={() => { setShowSettings(true); setShowGoalReached(false); }}
+          pause={() => { setStartGame(false); setShowGoalReached(false); }}
           repeat={repeatNote}
           started={startGame}
           mode="Note"
@@ -169,15 +174,17 @@ const NoteTrainer = props => {
 const mapStateToProps = state => ({
   pracMode: state.stats.pracModeNote,
   notesCorrect: state.stats.notesCorrect,
-  notesWrong: state.stats.notesWrong
+  notesWrong: state.stats.notesWrong,
+  totNoteCorrect: state.stats.totNoteCorrect,
+  noteGoal: state.goals.noteGoal,
+  noteGoalReached: state.goals.noteGoalReached
 });
 
 const mapDispatchToProps = dispatch => ({
-  onCorrect: () => dispatch(incCorrect()),
-  onWrong: () => dispatch(incWrong()),
-  onCorrectNote: (note) => dispatch(incCorrectNote(note)),
-  onWrongNote: (note) => dispatch(incWrongNote(note)),
-  setPracMode: (bool) => dispatch(setPracModeNote(bool))
+  onCorrectNote: (note) => dispatch(actions.incCorrectNote(note)),
+  onWrongNote: (note) => dispatch(actions.incWrongNote(note)),
+  setPracMode: (bool) => dispatch(actions.setPracModeNote(bool)),
+  changeNoteGoalReached: (bool) => dispatch(actions.changeNoteGoalReached(bool))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteTrainer);

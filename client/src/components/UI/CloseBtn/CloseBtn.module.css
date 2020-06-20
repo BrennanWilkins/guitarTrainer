@@ -10,12 +10,14 @@
   cursor: pointer;
   border: 0;
   border-radius: 3px;
-  background: rgb(2, 26, 48, 0.9);
+  background: rgb(5, 55, 99);
   color: white;
   outline: none;
+  transition: background 200ms;
 }
 .CloseBtn:hover {
-  background: rgb(2, 20, 10);
+  transition: background 200ms;
+  background: rgb(2, 26, 48);
 }
 .CloseBtn span {
   display: flex;

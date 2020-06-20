@@ -8,8 +8,9 @@ import StartPanel from '../../components/StartPanel/StartPanel';
 import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
 import NoteContainer from '../../components/NoteContainer/NoteContainer';
 import { connect } from 'react-redux';
-import { incCorrect, incWrong, incCorrectInterval, incWrongInterval, setPracModeInt } from '../../store/actions/index';
+import { incCorrectInterval, incWrongInterval, setPracModeInt } from '../../store/actions/index';
 import GoalPanel from '../../components/GoalPanel/GoalPanel';
+import GoalReachedPanel from '../../components/GoalReachedPanel/GoalReachedPanel';
 
 const IntervalTrainer = props => {
   const [sessionCorrect, setSessionCorrect] = useState(0);
@@ -32,6 +33,7 @@ const IntervalTrainer = props => {
   const [volumeOn, setVolumeOn] = useState(true);
   const [noCorrAnim, setNoCorrAnim] = useState(false);
   const [showGoalPanel, setShowGoalPanel] = useState(false);
+  const [showGoalReached, setShowGoalReached] = useState(false);
 
   const settingsBackdrop = useRef();
 
@@ -73,8 +75,10 @@ const IntervalTrainer = props => {
       otherSound.pause();
       rootSound.muted = true;
       otherSound.muted = true;
-      props.onCorrect();
       props.onCorrectInterval(interval);
+      if (props.intGoal > 0 && props.totIntCorrect + 1 >= props.intGoal) {
+        setShowGoalReached(true);
+      }
       setSessionCorrect(prevCorrect => prevCorrect + 1);
       setAnimCorrect(true);
       setTimeout(() => {
@@ -83,7 +87,6 @@ const IntervalTrainer = props => {
         gameLoop();
       }, 300);
     } else {
-      props.onWrong();
       props.onWrongInterval(interval);
       setAnimWrong(true);
       setTimeout(() => {
@@ -142,6 +145,7 @@ const IntervalTrainer = props => {
   return (
     <div className={!startGame || showSettings ? [classes.Content, classes.NoScroll].join(' ') : classes.Content}>
       <GoalPanel show={showGoalPanel} />
+      <GoalReachedPanel show={showGoalReached} mode="Interval" close={() => setShowGoalReached(false)} />
       <h1 className={classes.Title}>Interval Trainer</h1>
       <div className={classes.TopBar}>
         <TopBtns
@@ -191,12 +195,12 @@ const IntervalTrainer = props => {
 const mapStateToProps = state => ({
   pracMode: state.stats.pracModeInt,
   intsCorrect: state.stats.intervalsCorrect,
-  intsWrong: state.stats.intervalsWrong
+  intsWrong: state.stats.intervalsWrong,
+  totIntCorrect: state.stats.totIntCorrect,
+  intGoal: state.goals.intGoal
 });
 
 const mapDispatchToProps = dispatch => ({
-  onCorrect: () => dispatch(incCorrect()),
-  onWrong: () => dispatch(incWrong()),
   onCorrectInterval: (int) => dispatch(incCorrectInterval(int)),
   onWrongInterval: (int) => dispatch(incWrongInterval(int)),
   setPracMode: (bool) => dispatch(setPracModeInt(bool))
