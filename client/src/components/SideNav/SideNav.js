@@ -5,7 +5,7 @@ import GuitarIcon from '../GuitarIcon/GuitarIcon';
 import CloseBtn from '../UI/CloseBtn/CloseBtn';
 import { barChartIcon, noteIcon, intervalIcon, chordIcon, calendarPlus } from '../UI/UIIcons';
 import { connect } from 'react-redux';
-import { setShowGoalPanel, setIgnoreGoal, setShowAuthPanel, setAuthMode, setIsAuth, logout, reset } from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 
 const SideNav = props => {
   const closeHandler = () => {
@@ -40,7 +40,7 @@ const SideNav = props => {
           <Link to="#"><span className={classes.Icon}>{calendarPlus}</span>Daily Goal</Link>
         </div>
         {props.isAuth ? (
-          <div onClick={() => { props.logout(); props.reset(); }} className={classes.AuthLink}>
+          <div onClick={() => { props.logout(); props.close(); }} className={classes.AuthLink}>
             <Link to="#">Logout</Link>
           </div>
         ) : (
@@ -60,13 +60,11 @@ const SideNav = props => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  showPanel: (bool) => dispatch(setShowGoalPanel(bool)),
-  ignorePopupPanel: () => dispatch(setIgnoreGoal(true)),
-  setShowAuthPanel: () => dispatch(setShowAuthPanel(true)),
-  setAuthMode: (mode) => dispatch(setAuthMode(mode)),
-  setIsAuth: (bool) => dispatch(setIsAuth(bool)),
-  logout: () => dispatch(logout()),
-  reset: () => dispatch(reset())
+  showPanel: (bool) => dispatch(actions.setShowGoalPanel(bool)),
+  ignorePopupPanel: () => dispatch(actions.setIgnoreGoal(true)),
+  setShowAuthPanel: () => dispatch(actions.setShowAuthPanel(true)),
+  setAuthMode: (mode) => dispatch(actions.setAuthMode(mode)),
+  logout: () => dispatch(actions.logout())
 });
 
 export default withRouter(connect(null, mapDispatchToProps)(SideNav));

@@ -52,18 +52,9 @@ const SetGoalPanel = props => {
   };
 
   const setGoalHandler = () => {
-    if (intVal2 !== props.intGoal) {
-      props.changeIntGoalReached();
-      props.changeIntGoal(intVal2);
-    }
-    if (noteVal2 !== props.noteGoal) {
-      props.changeNoteGoalReached();
-      props.changeNoteGoal(noteVal2);
-    }
-    if (chordVal2 !== props.chordGoal) {
-      props.changeChordGoalReached();
-      props.changeChordGoal(chordVal2);
-    }
+    props.changeIntGoal(intVal2);
+    props.changeNoteGoal(noteVal2);
+    props.changeChordGoal(chordVal2);
     props.setShowPanel(false);
   };
 
@@ -82,7 +73,7 @@ const SetGoalPanel = props => {
     setIntVal2(props.intGoal);
     setNoteVal2(props.noteGoal);
     setChordVal2(props.chordGoal);
-  }, []);
+  }, [props.isAuth]);
 
   return (
     <CSSTransition in={props.show} timeout={450} classNames="PanelOpacity" unmountOnExit mountOnEnter>
@@ -90,9 +81,10 @@ const SetGoalPanel = props => {
         <CloseBtn close={() => props.setShowPanel(false)} />
         <div className={classes.Content}>
           <h1>Today's Goal</h1>
-          <p>Set a goal to reach for each game mode</p>
+          <p className={classes.SubTitle}>Set a goal to reach for each game mode</p>
           <div>
             <p>Interval Trainer : get {intVal2} correct{intVal2 > 0 && props.intCorrect >= intVal2 && <span>{checkMark}</span>}</p>
+            <p className={classes.CorrectToday}>Correct today: {props.intCorrect}</p>
             <div className={classes.Inputs}>
               <input value={intVal} onChange={intHandler} />
               <button onClick={() => changeHandler('int', 10)}>10</button>
@@ -101,6 +93,7 @@ const SetGoalPanel = props => {
           </div>
           <div>
             <p>Note Trainer: get {noteVal2} correct{props.noteCorrect >= noteVal2 && noteVal2 > 0 && <span>{checkMark}</span>}</p>
+            <p className={classes.CorrectToday}>Correct today: {props.noteCorrect}</p>
             <div className={classes.Inputs}>
               <input value={noteVal} onChange={noteHandler} />
               <button onClick={() => changeHandler('note', 10)}>10</button>
@@ -109,6 +102,7 @@ const SetGoalPanel = props => {
           </div>
           <div>
             <p>Chord Trainer: get {chordVal2} correct{props.chordCorrect >= chordVal2 && chordVal2 > 0 && <span>{checkMark}</span>}</p>
+            <p className={classes.CorrectToday}>Correct today: {props.chordCorrect}</p>
             <div className={classes.Inputs}>
               <input value={chordVal} onChange={chordHandler} />
               <button onClick={() => changeHandler('chord', 10)}>10</button>
@@ -127,19 +121,17 @@ const mapStateToProps = state => ({
   intGoal: state.goals.intGoal,
   noteGoal: state.goals.noteGoal,
   chordGoal: state.goals.chordGoal,
-  intCorrect: state.stats.totIntCorrect,
-  noteCorrect: state.stats.totNoteCorrect,
-  chordCorrect: state.stats.totChordCorrect
+  intCorrect: state.stats.totIntCorrectToday,
+  noteCorrect: state.stats.totNoteCorrectToday,
+  chordCorrect: state.stats.totChordCorrectToday,
+  isAuth: state.auth.isAuth
 });
 
 const mapDispatchToProps = dispatch => ({
   setShowPanel: (bool) => dispatch(actions.setShowGoalPanel(bool)),
   changeIntGoal: (num) => dispatch(actions.changeIntGoal(num)),
   changeNoteGoal: (num) => dispatch(actions.changeNoteGoal(num)),
-  changeChordGoal: (num) => dispatch(actions.changeChordGoal(num)),
-  changeNoteGoalReached: () => dispatch(actions.changeNoteGoalReached(false)),
-  changeIntGoalReached: () => dispatch(actions.changeIntGoalReached(false)),
-  changeChordGoalReached: () => dispatch(actions.changeChordGoalReached(false))
+  changeChordGoal: (num) => dispatch(actions.changeChordGoal(num))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SetGoalPanel);

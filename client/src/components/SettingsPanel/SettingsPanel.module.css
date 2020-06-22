@@ -22,7 +22,8 @@
   width: 40%;
   height: 55%;
   max-width: 500px;
-  max-height: 300px;
+  max-height: 400px;
+  overflow-x: hidden;
   overflow-y: auto;
 }
 .SettingsTop {
@@ -81,7 +82,7 @@
   justify-content: center;
 }
 .SettingsBtns button {
-  width: 85px;
+  width: 90px;
   height: 40px;
   margin: 10px 5px 15px;
   border-radius: 3px;
@@ -92,10 +93,12 @@
 .BtnSelected {
   background: #eee;
   border: 2px solid rgb(16, 30, 117);
+  text-align: center;
 }
 .BtnUnselected {
   background: #ddd;
   border: 2px solid #ddd;
+  text-align: center;
 }
 .Question {
   font-size: 20px;
@@ -183,6 +186,11 @@
 @media (max-width: 674px) {
   .SettingsIntervals {
     width: 90%;
+  }
+}
+@media (max-width: 590px) {
+  .SettingsBtns {
+    flex-direction: column;
   }
 }
 @media (min-height: 650px) {

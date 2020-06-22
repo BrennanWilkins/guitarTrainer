@@ -3,12 +3,13 @@ import classes from './AuthPanel.module.css';
 import { CSSTransition } from 'react-transition-group';
 import { connect } from 'react-redux';
 import '../../components/UI/compAnims.css';
-import { setShowAuthPanel, setIsAuth, setUserId, setToken, setStats, setStatsId } from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 import CloseBtn from '../../components/UI/CloseBtn/CloseBtn';
 import { personIcon, lockIcon } from '../../components/UI/UIIcons';
 import { validate } from '../../utils/authValidation';
 import { authInstance as axios, instance } from '../../axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import moment from 'moment';
 
 const AuthPanel = props => {
   const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ const AuthPanel = props => {
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [loading, setLoading] = useState(false);
+  const [remember, setRemember] = useState(false);
 
   const showErr = (msg) => {
     setErr(true);
@@ -25,18 +27,38 @@ const AuthPanel = props => {
 
   const successHandler = (data) => {
     setLoading(false);
-    props.setStats(data.stats);
     instance.defaults.headers.common['x-auth-token'] = data.token;
-    props.setUserId(data.userId);
-    props.setToken(data.token);
-    props.setStatsId(data.stats._id);
-    props.setIsAuth();
+    const today = String(moment().format('L'));
+    const newData = { ...data.stats };
+    if (data.stats.lastPlayed !== today) {
+      newData.lastPlayed = today;
+      newData.totIntCorrectToday = 0;
+      newData.totNoteCorrectToday = 0;
+      newData.totChordCorrectToday = 0;
+      instance.put('stats/', newData).catch(err => {
+        console.log(err.response);
+      });
+    }
+    if (remember) {
+      localStorage['token'] = data.token;
+      // expires in 30 days
+      localStorage['expirationDate'] = new Date(new Date().getTime() + 2592000000);
+      localStorage['expirationTime'] = '2592000000';
+    } else {
+      // expires in 24hr
+      localStorage['token'] = data.token;
+      localStorage['expirationDate'] = new Date(new Date().getTime() + 86400000);
+      localStorage['expirationTime'] = '86400000';
+    }
+    props.setStats(newData);
+    props.setGoals(data.goals);
+    props.login();
     closeHandler();
   };
 
   const loginHandler = () => {
     setLoading(true);
-    axios.post('login', { email, password }).then(res => {
+    axios.post('login', { email, password, remember }).then(res => {
       if (res.status !== 200) { return showErr(res.data.msg); }
       successHandler(res.data);
     }).catch(err => {
@@ -46,7 +68,7 @@ const AuthPanel = props => {
 
   const signupHandler = () => {
     setLoading(true);
-    axios.post('signup', { email, password }).then(res => {
+    axios.post('signup', { email, password, remember }).then(res => {
       if (res.status !== 200) { return showErr(res.data.msg); }
       successHandler(res.data);
     }).catch(err => {
@@ -75,7 +97,7 @@ const AuthPanel = props => {
     <div>
       <CSSTransition in={props.show} timeout={800} classNames="AuthPanel" mountOnEnter unmountOnExit>
         <div className={classes.Panel}>
-          {props.loading && <Spinner />}
+          {loading && <Spinner login />}
           <CloseBtn close={closeHandler} />
           <div className={classes.Content}>
             <h1>{props.mode === 'Login' ? 'Log in' : 'Sign up'}</h1>
@@ -99,7 +121,7 @@ const AuthPanel = props => {
               <div className={classes.FocusBorder}></div>
             </div>
             <div className={classes.Remember}>
-              <input type="checkbox" />
+              <input type="checkbox" onChange={() => setRemember(prev => !prev)} />
               <span>Remember me for 30 days</span>
             </div>
             <div className={classes.ErrDiv}>
@@ -123,17 +145,14 @@ const AuthPanel = props => {
 
 const mapStateToProps = state => ({
   show: state.auth.showAuthPanel,
-  mode: state.auth.authMode,
-  userId: state.auth.userId
+  mode: state.auth.authMode
 });
 
 const mapDispatchToProps = dispatch => ({
-  setShowAuthPanel: () => dispatch(setShowAuthPanel(false)),
-  setIsAuth: () => dispatch(setIsAuth(true)),
-  setUserId: (id) => dispatch(setUserId(id)),
-  setToken: (token) => dispatch(setToken(token)),
-  setStats: (stats) => dispatch(setStats(stats)),
-  setStatsId: (id) => dispatch(setStatsId(id))
+  setShowAuthPanel: () => dispatch(actions.setShowAuthPanel(false)),
+  login: () => dispatch(actions.login()),
+  setStats: (stats) => dispatch(actions.setStats(stats)),
+  setGoals: (goals) => dispatch(actions.setGoals(goals))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPanel);

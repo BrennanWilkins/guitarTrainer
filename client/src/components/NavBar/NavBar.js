@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import SideNav from '../SideNav/SideNav';
 import GuitarIcon from '../GuitarIcon/GuitarIcon';
 import { connect } from 'react-redux';
-import { setShowAuthPanel, setAuthMode, setIsAuth, logout, reset } from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 
 const NavBar = props => {
   const [showSideBar, setShowSideBar] = useState(false);
@@ -27,7 +27,7 @@ const NavBar = props => {
         <div className={classes.AuthLinks}>
           {props.isAuth ?
             (
-              <div onClick={() => { props.logout(); props.reset(); }}>
+              <div onClick={props.logout}>
                 <Link to="#">Logout</Link>
               </div>
             ) : (
@@ -55,11 +55,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setShowAuthPanel: () => dispatch(setShowAuthPanel(true)),
-  setAuthMode: (mode) => dispatch(setAuthMode(mode)),
-  setIsAuth: (bool) => dispatch(setIsAuth(bool)),
-  logout: () => dispatch(logout()),
-  reset: () => dispatch(reset())
+  setShowAuthPanel: () => dispatch(actions.setShowAuthPanel(true)),
+  setAuthMode: (mode) => dispatch(actions.setAuthMode(mode)),
+  logout: () => dispatch(actions.logout())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

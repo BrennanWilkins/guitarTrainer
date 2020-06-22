@@ -62,7 +62,8 @@ const StatsSchema = new mongoose.Schema({
   totIntCorrectToday: {type: Number, required: true},
   totNoteCorrectToday: {type: Number, required: true},
   totChordCorrectToday: {type: Number, required: true},
-  userId: {type: mongoose.Schema.Types.ObjectId, required: true}
+  userId: {type: mongoose.Schema.Types.ObjectId, required: true},
+  lastPlayed: {type: String, required: true}
 });
 
 module.exports = mongoose.model('Stats', StatsSchema);

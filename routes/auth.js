@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const Stats = require('../models/stats');
+const Goals = require('../models/goals');
 const { check, body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const config = require('config');
+const moment = require('moment');
 
 // POST request for login
 router.post('/login', [
@@ -29,13 +31,19 @@ router.post('/login', [
       bcryptjs.compare(req.body.password, user.password, (err, resp) => {
         if (resp) {
           // success, returns jwt token and user id
-          jwt.sign({ user }, config.get('AUTH_KEY'), (error, token) => {
+          const options = req.body.remember === 'false' ? { expiresIn: '24h' } : { expiresIn: '30d' };
+          jwt.sign({ user }, config.get('AUTH_KEY'), options, (error, token) => {
             if (error) { return res.status(500).json({ msg: 'Server error.' }); }
             // auto get users stats
-            Stats.find({ 'userId': user._id }).exec((statErr, stats) => {
+            Stats.findOne({ 'userId': user._id }).exec((statErr, stats) => {
               if (statErr) { return res.status(500).json({ msg: 'Error logging in.' }); }
               if (stats.length === 0) { return res.status(404).json({ msg: 'No stats found for user.' }); }
-              res.status(200).json({ msg: 'Success.', stats, token, userId: user._id });
+              // auto get users goals
+              Goals.findOne({ 'userId': user._id }).exec((goalErr, goals) => {
+                if (goalErr) { return res.status(500).json({ msg: 'Error logging in.' }); }
+                if (goals.length === 0) { return res.status(404).json({ msg: 'No goals found for user.' }); }
+                res.status(200).json({ msg: 'Success.', stats, token, goals });
+              });
             });
           });
         } else {
@@ -77,7 +85,8 @@ router.post('/signup', [
             return res.status(500).json({ msg: 'Failed signing up user.' });
           }
           // user successful signed up, auto login
-          jwt.sign({ user }, config.get('AUTH_KEY'), (error, token) => {
+          const options = req.body.remember === 'false' ? { expiresIn: '24h' } : { expiresIn: '30d' };
+          jwt.sign({ user }, config.get('AUTH_KEY'), options, (error, token) => {
             if (error) { return res.status(500).json({ msg: 'Server error.' }); }
             // auto create stats for user
             const stats = new Stats({
@@ -90,11 +99,22 @@ router.post('/signup', [
               totIntCorrectToday: 0,
               totNoteCorrectToday: 0,
               totChordCorrectToday: 0,
+              lastPlayed: moment().format('L'),
               userId: user._id
             });
             stats.save((err, result) => {
               if (err) { return res.status(500).json({ msg: 'Failed signing up user.' }); }
-              return res.status(200).json({ msg: 'Success.', token, userId: user._id, stats });
+              // auto create goals for user
+              const goals = new Goals({
+                intGoal: 0,
+                noteGoal: 0,
+                chordGoal: 0,
+                userId: user._id
+              });
+              goals.save((err, result) => {
+                if (err) { return res.status(500).json({ msg: 'Failed signing up user.' }); }
+                return res.status(200).json({ msg: 'Success.', token, stats, goals });
+              });
             });
           });
         });

@@ -48,9 +48,9 @@
 }
 @media (max-height: 485px) {
   .ArrowUp {
-    top: 45px;
+    top: 60px;
   }
   .RepeatText {
-    top: 80px;
+    top: 95px;
   }
 }

@@ -133,6 +133,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 .PracInfo button:hover, .PracBtn button:hover {
   background:  rgb(31, 67, 145);
@@ -146,9 +147,9 @@
   height: 160px;
   position: absolute;
   left: calc(50% - 175px);
-  bottom: -360px;
   opacity: 1;
   transition: opacity 200ms;
+  bottom: 45px;
 }
 .InfoPanel p, .HideInfoPanel p {
   margin: auto;

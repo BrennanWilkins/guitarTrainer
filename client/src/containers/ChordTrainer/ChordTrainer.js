@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import classes from './ChordTrainer.module.css';
 import Guitar from '../../components/Guitar/Guitar';
 import { getMajMinChord, getNoteShorthand } from '../../utils/intervalFuncs';
@@ -39,6 +39,17 @@ const ChordTrainer = props => {
   const [showGoalReached, setShowGoalReached] = useState(false);
 
   const settingsBackdrop = useRef();
+
+  useEffect(() => {
+    setSessionWrong(0);
+    setSessionCorrect(0);
+  }, [props.isAuth]);
+
+  useEffect(() => {
+    if (props.totChordCorrect < props.chordGoal) {
+      setShowGoalReached(false);
+    }
+  }, [props.chordGoal]);
 
   const startGameHandler = () => {
     if (!gameFirstStart) {
@@ -92,7 +103,7 @@ const ChordTrainer = props => {
       thirdSound.muted = true;
       fifthSound.muted = true;
       props.incCorrect();
-      if (props.chordGoal > 0 && props.totCorrect + 1 >= props.chordGoal) {
+      if (props.chordGoal > 0 && props.totCorrect + 1 === props.chordGoal) {
         setShowGoalReached(true);
       }
       setSessionCorrect(prevCorrect => prevCorrect + 1);
@@ -153,12 +164,15 @@ const ChordTrainer = props => {
   return (
     <div className={!startGame || showSettings ? [classes.Content, classes.NoScroll].join(' ') : classes.Content}>
       <GoalPanel show={showGoalPanel} />
-      <GoalReachedPanel show={showGoalReached} mode="Chord" close={() => setShowGoalReached(false)} />
+      <GoalReachedPanel
+        show={showGoalReached}
+        mode="Chord"
+        close={() => setShowGoalReached(false)} />
       <h1 className={classes.Title}>Chord Trainer</h1>
       <div className={classes.TopBar}>
         <TopBtns
-          showSettings={() => setShowSettings(true)}
-          pause={() => setStartGame(false)}
+          showSettings={() => { setShowSettings(true); setShowGoalReached(false); }}
+          pause={() => { setStartGame(false); setShowGoalReached(false); }}
           repeat={repeatNotes}
           started={startGame}
           mode="Chord"
@@ -201,8 +215,9 @@ const ChordTrainer = props => {
 };
 
 const mapStateToProps = state => ({
-  totCorrect: state.stats.totChordCorrect,
-  chordGoal: state.goals.chordGoal
+  totCorrect: state.stats.totChordCorrectToday,
+  chordGoal: state.goals.chordGoal,
+  isAuth: state.auth.isAuth
 });
 
 const mapDispatchToProps = dispatch => ({

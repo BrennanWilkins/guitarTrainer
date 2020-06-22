@@ -9,9 +9,23 @@
   text-indent: -9999em;
   -webkit-animation: load4 1.3s infinite linear;
   animation: load4 1.3s infinite linear;
-  /* -webkit-transform: translateZ(0);
+  -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
-  transform: translateZ(0); */
+  transform: translateZ(0);
+}
+.LoginLoader {
+  color: rgb(27, 56, 119);
+  font-size: 11px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: absolute;
+  top: 150px;
+  left: calc(50% - 7.5px);
+  z-index: 100;
+  text-indent: -9999em;
+  -webkit-animation: load4 1.3s infinite linear;
+  animation: load4 1.3s infinite linear;
 }
 @-webkit-keyframes load4 {
   0%,

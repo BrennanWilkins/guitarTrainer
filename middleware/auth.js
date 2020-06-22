@@ -3,13 +3,13 @@ const config = require('config');
 
 // verify jwt token from user
 module.exports = (req, res, next) => {
-  const reqToken = req.header('x-auth-token');
-  if (reqToken) {
-    jwt.verify(reqToken, config.get('AUTH_KEY'), (err, token) => {
+  const token = req.header('x-auth-token');
+  if (token) {
+    jwt.verify(token, config.get('AUTH_KEY'), (err, decoded) => {
       if (err) {
-        return res.status(401).json({ msg: 'Token is not valid.', token });
+        return res.status(401).json({ msg: 'Token is not valid.' });
       }
-      req.token = reqToken;
+      req.userId = decoded.user._id;
       next();
     });
   } else {

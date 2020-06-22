@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 
 const GoalsSchema = new mongoose.Schema({
-  intGoal: {type: String, required: true},
-  chordGoal: {type: String, required: true},
-  noteGoal: {type: String, required: true},
-  date: {type: String, required: true},
+  intGoal: {type: Number, required: true},
+  chordGoal: {type: Number, required: true},
+  noteGoal: {type: Number, required: true},
   userId: {type: mongoose.Schema.Types.ObjectId, required: true}
 });
 

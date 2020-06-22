@@ -8,7 +8,7 @@ import Home from './components/Home/Home';
 import SetGoalPanel from './components/SetGoalPanel/SetGoalPanel';
 import AuthPanel from './containers/AuthPanel/AuthPanel';
 import { connect } from 'react-redux';
-import { logout, reset } from './store/actions/index';
+import { autoLogin } from './store/actions/index';
 const IntervalTrainer = React.lazy(() => import('./containers/IntervalTrainer/IntervalTrainer'));
 const NoteTrainer = React.lazy(() => import('./containers/NoteTrainer/NoteTrainer'));
 const ChordTrainer = React.lazy(() => import('./containers/ChordTrainer/ChordTrainer'));
@@ -23,7 +23,7 @@ const App = props => {
   });
 
   useEffect(() => {
-    return () => { props.logout(); props.reset(); };
+    props.autoLogin();
   }, []);
 
   return (
@@ -46,9 +46,12 @@ const App = props => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logout()),
-  reset: () => dispatch(reset())
+const mapStateToProps = state => ({
+  isAuth: state.auth.isAuth
 });
 
-export default connect(null, mapDispatchToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  autoLogin: () => dispatch(autoLogin())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

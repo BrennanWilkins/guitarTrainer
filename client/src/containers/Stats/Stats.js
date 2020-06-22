@@ -58,13 +58,13 @@ const Stats = props => {
       </div>
       <div className={classes.PracInfo}>
         <button onClick={() => setShowInfoPanel(true)}>How does custom practice work?</button>
-      </div>
-      <div className={showInfoPanel ? classes.InfoPanel : classes.HideInfoPanel}>
-        <CloseBtn close={() => setShowInfoPanel(false)} />
-        <p>
-          The notes or intervals are generated based on your accuracy, so a note or interval
-          with higher accuracy will appear less often than one with lower accuracy.
-        </p>
+        <div className={showInfoPanel ? classes.InfoPanel : classes.HideInfoPanel}>
+          <CloseBtn close={() => setShowInfoPanel(false)} />
+          <p>
+            The notes or intervals are generated based on your accuracy, so a note or interval
+            with higher accuracy will appear less often than one with lower accuracy.
+          </p>
+        </div>
       </div>
       <div className={classes.ResetDiv}>
         <button onClick={() => setShowReset(true)}>Reset stats</button>

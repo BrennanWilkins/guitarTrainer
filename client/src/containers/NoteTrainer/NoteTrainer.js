@@ -35,6 +35,11 @@ const NoteTrainer = props => {
   const settingsBackdrop = useRef();
 
   useEffect(() => {
+    setSessionWrong(0);
+    setSessionCorrect(0);
+  }, [props.isAuth]);
+
+  useEffect(() => {
     return () => props.setPracMode(false);
   }, []);
 
@@ -61,12 +66,18 @@ const NoteTrainer = props => {
     if (volumeOn) { newNoteSound.play(); }
   };
 
+  useEffect(() => {
+    if (props.totNoteCorrect < props.noteGoal) {
+      setShowGoalReached(false);
+    }
+  }, [props.noteGoal]);
+
   const checkAnswer = (e) => {
     if (e.target.value === shortNote) {
-      props.onCorrectNote(shortNote);
-      if (props.noteGoal > 0 && props.totNoteCorrect + 1 >= props.noteGoal) {
+      if (props.noteGoal > 0 && props.totNoteCorrect + 1 === props.noteGoal) {
         setShowGoalReached(true);
       }
+      props.onCorrectNote(shortNote);
       setSessionCorrect(prevCorrect => prevCorrect + 1);
       setAnimCorrect(true);
       setTimeout(() => {
@@ -126,8 +137,10 @@ const NoteTrainer = props => {
   return (
     <div className={!startGame || showSettings ? [classes.Content, classes.NoScroll].join(' ') : classes.Content}>
       <GoalPanel show={showGoalPanel} />
-      <GoalReachedPanel show={showGoalReached && !props.noteGoalReached} mode="Note"
-      close={() => { setShowGoalReached(false); props.changeNoteGoalReached(true); }} />
+      <GoalReachedPanel
+        show={showGoalReached}
+        mode="Note"
+        close={() => setShowGoalReached(false)} />
       <h1 className={classes.Title}>Note Trainer</h1>
       <div className={classes.TopBar}>
         <TopBtns
@@ -175,16 +188,15 @@ const mapStateToProps = state => ({
   pracMode: state.stats.pracModeNote,
   notesCorrect: state.stats.notesCorrect,
   notesWrong: state.stats.notesWrong,
-  totNoteCorrect: state.stats.totNoteCorrect,
+  totNoteCorrect: state.stats.totNoteCorrectToday,
   noteGoal: state.goals.noteGoal,
-  noteGoalReached: state.goals.noteGoalReached
+  isAuth: state.auth.isAuth
 });
 
 const mapDispatchToProps = dispatch => ({
   onCorrectNote: (note) => dispatch(actions.incCorrectNote(note)),
   onWrongNote: (note) => dispatch(actions.incWrongNote(note)),
   setPracMode: (bool) => dispatch(actions.setPracModeNote(bool)),
-  changeNoteGoalReached: (bool) => dispatch(actions.changeNoteGoalReached(bool))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteTrainer);

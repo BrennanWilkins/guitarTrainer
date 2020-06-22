@@ -1,5 +1,12 @@
 import * as actionTypes from '../actions/actionTypes';
 import { initialNotes, initialIntervals } from '../../utils/statFuncs';
+import { instance as axios } from '../../axios';
+
+const updateStats = (data) => {
+  axios.put('stats/', { ...data }).catch(err => {
+    console.log(err.response);
+  });
+};
 
 const initialState = {
   totCorrect: 0,
@@ -15,7 +22,7 @@ const initialState = {
   notesWrong: { ...initialNotes },
   pracModeInt: false,
   pracModeNote: false,
-  statsId: null
+  lastPlayed: ''
 };
 
 const getTotCorrect = (stats) => {
@@ -33,19 +40,10 @@ const getTotWrong = (stats) => {
 };
 
 const reducer = (state = initialState, action) => {
+  let newState = {};
   switch(action.type) {
-    case actionTypes.INC_CORRECT:
-      return {
-        ...state,
-        totCorrect: state.totCorrect + 1
-      };
-    case actionTypes.INC_WRONG:
-      return {
-        ...state,
-        totWrong: state.totWrong + 1
-      };
     case actionTypes.RESET:
-      return {
+      newState = {
         ...state,
         totCorrect: 0,
         totWrong: 0,
@@ -59,8 +57,10 @@ const reducer = (state = initialState, action) => {
         notesCorrect: { ...initialNotes },
         notesWrong: { ...initialNotes }
       };
+      if (action.isAuth) { updateStats(newState); }
+      return newState;
     case actionTypes.INC_CORRECT_INT:
-      return {
+      newState = {
         ...state,
         totCorrect: state.totCorrect + 1,
         totIntCorrectToday: state.totIntCorrectToday + 1,
@@ -69,8 +69,10 @@ const reducer = (state = initialState, action) => {
           [action.interval]: state.intervalsCorrect[action.interval] + 1
         }
       };
+      if (action.isAuth) { updateStats(newState); }
+      return newState;
     case actionTypes.INC_WRONG_INT:
-      return {
+      newState = {
         ...state,
         totWrong: state.totWrong + 1,
         intervalsWrong: {
@@ -78,8 +80,10 @@ const reducer = (state = initialState, action) => {
           [action.interval]: state.intervalsWrong[action.interval] + 1
         }
       };
+      if (action.isAuth) { updateStats(newState); }
+      return newState;
     case actionTypes.INC_CORRECT_NOTE:
-      return {
+      newState = {
         ...state,
         totCorrect: state.totCorrect + 1,
         totNoteCorrectToday: state.totNoteCorrectToday + 1,
@@ -88,8 +92,10 @@ const reducer = (state = initialState, action) => {
           [action.note]: state.notesCorrect[action.note] + 1
         }
       };
+      if (action.isAuth) { updateStats(newState); }
+      return newState;
     case actionTypes.INC_WRONG_NOTE:
-      return {
+      newState = {
         ...state,
         totWrong: state.totWrong + 1,
         notesWrong: {
@@ -97,19 +103,25 @@ const reducer = (state = initialState, action) => {
           [action.note]: state.notesWrong[action.note] + 1
         }
       };
+      if (action.isAuth) { updateStats(newState); }
+      return newState;
     case actionTypes.INC_CORRECT_CHORD:
-      return {
+      newState = {
         ...state,
         totCorrect: state.totCorrect + 1,
         totChordCorrectToday: state.totChordCorrectToday + 1,
         chordCorrect: state.chordCorrect + 1
       };
+      if (action.isAuth) { updateStats(newState); }
+      return newState;
     case actionTypes.INC_WRONG_CHORD:
-      return {
+      newState = {
         ...state,
         totWrong: state.totWrong + 1,
         chordWrong: state.chordWrong + 1
       };
+      if (action.isAuth) { updateStats(newState); }
+      return newState;
     case actionTypes.SET_PRAC_MODE_INT:
       return {
         ...state,
@@ -125,20 +137,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         totCorrect: getTotCorrect(action.stats),
         totWrong: getTotWrong(action.stats),
-        chordCorrect: { ...action.stats.chordCorrect },
-        chordWrong: { ...action.stats.chordWrong },
+        chordCorrect: action.stats.chordCorrect,
+        chordWrong: action.stats.chordWrong,
         intervalsCorrect: { ...action.stats.intervalsCorrect },
         intervalsWrong: { ...action.stats.intervalsWrong },
         notesCorrect: { ...action.stats.notesCorrect },
         notesWrong: { ...action.stats.notesWrong },
         totNoteCorrectToday: action.stats.totNoteCorrectToday,
         totIntCorrectToday: action.stats.totIntCorrectToday,
-        totChordCorrectToday: action.stats.totChordCorrectToday
-      };
-    case actionTypes.SET_STATSID:
-      return {
-        ...state,
-        statsId: action.id
+        totChordCorrectToday: action.stats.totChordCorrectToday,
+        lastPlayed: action.stats.lastPlayed
       };
     default: return state;
   }

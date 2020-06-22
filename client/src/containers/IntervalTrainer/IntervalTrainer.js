@@ -8,7 +8,7 @@ import StartPanel from '../../components/StartPanel/StartPanel';
 import SettingsPanel from '../../components/SettingsPanel/SettingsPanel';
 import NoteContainer from '../../components/NoteContainer/NoteContainer';
 import { connect } from 'react-redux';
-import { incCorrectInterval, incWrongInterval, setPracModeInt } from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 import GoalPanel from '../../components/GoalPanel/GoalPanel';
 import GoalReachedPanel from '../../components/GoalReachedPanel/GoalReachedPanel';
 
@@ -38,8 +38,19 @@ const IntervalTrainer = props => {
   const settingsBackdrop = useRef();
 
   useEffect(() => {
+    setSessionWrong(0);
+    setSessionCorrect(0);
+  }, [props.isAuth]);
+
+  useEffect(() => {
     return () => props.setPracMode(false);
   }, []);
+
+  useEffect(() => {
+    if (props.totIntCorrect < props.intGoal) {
+      setShowGoalReached(false);
+    }
+  }, [props.intGoal]);
 
   const startGameHandler = () => {
     if (!gameFirstStart) {
@@ -75,10 +86,10 @@ const IntervalTrainer = props => {
       otherSound.pause();
       rootSound.muted = true;
       otherSound.muted = true;
-      props.onCorrectInterval(interval);
-      if (props.intGoal > 0 && props.totIntCorrect + 1 >= props.intGoal) {
+      if (props.intGoal > 0 && props.totIntCorrect + 1 === props.intGoal) {
         setShowGoalReached(true);
       }
+      props.onCorrectInterval(interval);
       setSessionCorrect(prevCorrect => prevCorrect + 1);
       setAnimCorrect(true);
       setTimeout(() => {
@@ -145,12 +156,15 @@ const IntervalTrainer = props => {
   return (
     <div className={!startGame || showSettings ? [classes.Content, classes.NoScroll].join(' ') : classes.Content}>
       <GoalPanel show={showGoalPanel} />
-      <GoalReachedPanel show={showGoalReached} mode="Interval" close={() => setShowGoalReached(false)} />
+      <GoalReachedPanel
+        show={showGoalReached}
+        mode="Interval"
+        close={() => setShowGoalReached(false)} />
       <h1 className={classes.Title}>Interval Trainer</h1>
       <div className={classes.TopBar}>
         <TopBtns
-          showSettings={() => setShowSettings(true)}
-          pause={() => setStartGame(false)}
+          showSettings={() => { setShowSettings(true); setShowGoalReached(false); }}
+          pause={() => { setStartGame(false); setShowGoalReached(false); }}
           repeat={repeatNotes}
           started={startGame}
           mode="Interval"
@@ -196,14 +210,15 @@ const mapStateToProps = state => ({
   pracMode: state.stats.pracModeInt,
   intsCorrect: state.stats.intervalsCorrect,
   intsWrong: state.stats.intervalsWrong,
-  totIntCorrect: state.stats.totIntCorrect,
-  intGoal: state.goals.intGoal
+  totIntCorrect: state.stats.totIntCorrectToday,
+  intGoal: state.goals.intGoal,
+  isAuth: state.auth.isAuth
 });
 
 const mapDispatchToProps = dispatch => ({
-  onCorrectInterval: (int) => dispatch(incCorrectInterval(int)),
-  onWrongInterval: (int) => dispatch(incWrongInterval(int)),
-  setPracMode: (bool) => dispatch(setPracModeInt(bool))
+  onCorrectInterval: (int) => dispatch(actions.incCorrectInterval(int)),
+  onWrongInterval: (int) => dispatch(actions.incWrongInterval(int)),
+  setPracMode: (bool) => dispatch(actions.setPracModeInt(bool))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IntervalTrainer);
