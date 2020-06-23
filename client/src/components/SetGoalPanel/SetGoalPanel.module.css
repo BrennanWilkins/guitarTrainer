@@ -50,11 +50,12 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .Inputs button {
   margin-left: 10px;
   cursor: pointer;
-  padding: 5px 8px;
+  padding: 13px 8px;
   font-size: 13.5px;
   line-height: 0;
   text-align: center;

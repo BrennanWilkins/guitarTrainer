@@ -64,8 +64,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2px 0;
-  display: block;
+  height: 100%;
 }
 .InputDiv input {
   border: 0;
