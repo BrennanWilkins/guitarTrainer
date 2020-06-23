@@ -33,6 +33,7 @@
   box-shadow: 0 1px 10px 0 rgba(0,0,0,0.75);
   margin-bottom: 10px;
   font-size: 18px;
+  background: #eee;
 }
 .StartBtn:hover {
   background: #ddd;
@@ -49,6 +50,9 @@
   border: 0;
   background: rgb(23, 27, 130);
   font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .TargetExample, .RootExample {
   width: 200px;
@@ -85,6 +89,6 @@
 }
 @media (max-height: 485px) {
   .StartPanel {
-    top: 110px;
+    top: 120px;
   }
 }

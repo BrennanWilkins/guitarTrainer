@@ -35,6 +35,8 @@
   font-weight: bold;
   text-align: center;
   padding: 0 10px;
+  display: block;
+  position: relative;
 }
 .SettingsIntervals {
   margin: 10px 0;
@@ -112,6 +114,7 @@
   font-size: 14px;
   text-align: center;
   width: 75%;
+  display: block;
 }
 .Switch {
   position: relative;

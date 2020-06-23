@@ -10,12 +10,15 @@
   box-shadow: 0 1px 10px 0 rgba(0,0,0,0.75);
   border-radius: 3px;
   width: 350px;
-  height: 350px;
   z-index: 101;
   position: absolute;
   left: calc(50% - 175px);
-  top: 100px;
   text-align: center;
+  top: 20%;
+  height: 70%;
+  max-height: 350px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .Content {
   margin-top: 40px;
@@ -35,6 +38,7 @@
   padding: 5px;
   margin: 10px;
   position: relative;
+  font-size: 18px;
 }
 .FocusBorder {
   position: absolute;
@@ -77,6 +81,7 @@
   font-size: 16px;
   transition: background 300ms;
   margin-top: 50px;
+  margin-bottom: 20px;
 }
 .Content button:hover {
   transition: background 300ms;

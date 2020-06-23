@@ -11,7 +11,9 @@
   cursor: pointer;
   outline: 0;
   display: flex;
-  padding: 0;
+  padding: 1px;
+  justify-content: center;
+  align-items: center;
 }
 .Hidden {
   display: none;

@@ -44,6 +44,10 @@
   background: rgb(16, 30, 117, 0.1);
   outline: none;
   transition: background 150ms;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .NoteDisabled {
   display: none;
