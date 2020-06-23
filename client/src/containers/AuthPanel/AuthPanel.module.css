@@ -39,6 +39,7 @@
   margin: 10px;
   position: relative;
   font-size: 18px;
+  height: 27px;
 }
 .FocusBorder {
   position: absolute;
@@ -64,7 +65,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  position: relative;
+  top: 4px;
 }
 .InputDiv input {
   border: 0;
