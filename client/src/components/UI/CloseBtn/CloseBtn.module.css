@@ -14,17 +14,12 @@
   color: white;
   outline: none;
   transition: background 200ms;
-  overflow: hidden;
 }
 .CloseBtn:hover {
   transition: background 200ms;
   background: rgb(2, 26, 48);
 }
 .CloseBtn span {
-  display: flex;
-  font-size: 20px;
-  justify-content: center;
-  align-items: center;
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
 }
