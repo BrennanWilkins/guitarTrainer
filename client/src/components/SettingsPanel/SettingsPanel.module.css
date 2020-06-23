@@ -97,6 +97,8 @@
   outline: none;
   text-align: center;
   font-size: 13.5px;
+  display: flex;
+  justify-content: center;
 }
 .BtnSelected {
   background: #eee;
