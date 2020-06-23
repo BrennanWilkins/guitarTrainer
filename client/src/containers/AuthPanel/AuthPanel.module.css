@@ -70,10 +70,10 @@
 }
 .InputDiv input {
   border: 0;
-  height: 25px;
   font-size: 18px;
   margin-left: 5px;
   outline: none;
+  padding: 3px 2px;
 }
 .Content button {
   cursor: pointer;
