@@ -12,7 +12,7 @@
   color: white;
   outline: none;
   transition: background 200ms;
-  padding: 2.5px;
+  padding: 1.5px;
 }
 .CloseBtn:hover {
   transition: background 200ms;
@@ -22,4 +22,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1px;
 }

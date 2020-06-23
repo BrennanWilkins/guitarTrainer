@@ -83,7 +83,7 @@ const SetGoalPanel = props => {
           <h1>Today's Goal</h1>
           <p className={classes.SubTitle}>Set a goal to reach for each game mode</p>
           <div>
-            <p>Interval Trainer : get {intVal2} correct{intVal2 > 0 && props.intCorrect >= intVal2 && <span>{checkMark}</span>}</p>
+            <p>Interval Trainer: get {intVal2} correct{intVal2 > 0 && props.intCorrect >= intVal2 && <span>{checkMark}</span>}</p>
             <p className={classes.CorrectToday}>Correct today: {props.intCorrect}</p>
             <div className={classes.Inputs}>
               <input value={intVal} onChange={intHandler} />

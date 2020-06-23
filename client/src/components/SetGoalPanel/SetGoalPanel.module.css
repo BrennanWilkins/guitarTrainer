@@ -52,10 +52,12 @@
   justify-content: center;
 }
 .Inputs button {
-  width: 35px;
   margin-left: 10px;
   cursor: pointer;
-  padding: 5px;
+  padding: 5px 8px;
+  font-size: 13.5px;
+  line-height: 0;
+  text-align: center;
 }
 .Content p {
   position: relative;

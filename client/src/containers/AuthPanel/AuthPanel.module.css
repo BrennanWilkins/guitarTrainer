@@ -63,8 +63,9 @@
   color: rgb(27, 56, 119);
   display: flex;
   justify-content: center;
-  align-items: baseline;
-  padding: 4px 0;
+  align-items: center;
+  padding: 2px 0;
+  display: block;
 }
 .InputDiv input {
   border: 0;
