@@ -5,9 +5,6 @@
   width: 100%;
   z-index: 5;
   background: rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .Hide {
   display: none;
@@ -19,12 +16,14 @@
   flex-direction: column;
   align-items: center;
   border-radius: 3px;
-  width: 40%;
-  height: 55%;
-  max-width: 500px;
-  max-height: 400px;
   overflow-x: hidden;
   overflow-y: auto;
+  width: 400px;
+  height: 70%;
+  max-height: 400px;
+  position: absolute;
+  top: 15%;
+  left: calc(50% - 200px);
 }
 .SettingsTop {
   width: 100%;
@@ -35,15 +34,13 @@
   font-weight: bold;
   text-align: center;
   padding: 0 10px;
-  display: block;
-  position: relative;
 }
 .SettingsIntervals {
   margin: 10px 0;
-  width: 60%;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
+  width: 300px;
 }
 .SettingIntEnabled {
   border-radius: 50px;
@@ -56,6 +53,10 @@
   width: 35px;
   height: 35px;
   margin: 5px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .SettingIntDisabled {
   border-radius: 50px;
@@ -68,6 +69,10 @@
   width: 35px;
   height: 35px;
   margin: 5px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .SettingsErrMsg {
   opacity: 1;
@@ -163,7 +168,7 @@
   transform: translateX(26px);
 }
 
-@media (max-width: 1124px) {
+/* @media (max-width: 1124px) {
   .SettingsIntervals {
     width: 70%;
   }
@@ -208,4 +213,4 @@
   .SettingsDiv {
     padding-bottom: 10px;
   }
-}
+} */

@@ -60,9 +60,12 @@
 .Icon {
   float: left;
   position: relative;
-  top: 2px;
+  top: 4px;
   font-size: 18px;
   color: rgb(27, 56, 119);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .InputDiv input {
   border: 0;
@@ -82,13 +85,16 @@
   transition: background 300ms;
   margin-top: 50px;
   margin-bottom: 20px;
+  height: 40px;
 }
 .Content button:hover {
   transition: background 300ms;
   background: rgb(38, 79, 170);
 }
 .Remember {
-  margin: 10px 93px 0 0;
+  position: relative;
+  margin-top: 10px;
+  left: -46px;
   font-size: 13px;
 }
 .Remember span {

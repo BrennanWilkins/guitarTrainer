@@ -14,6 +14,7 @@
   color: white;
   outline: none;
   transition: background 200ms;
+  overflow: hidden;
 }
 .CloseBtn:hover {
   transition: background 200ms;
@@ -21,6 +22,7 @@
 }
 .CloseBtn span {
   display: flex;
+  font-size: 20px;
   justify-content: center;
   align-items: center;
   height: 25px;
