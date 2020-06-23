@@ -55,6 +55,7 @@
   width: 35px;
   margin-left: 10px;
   cursor: pointer;
+  padding: 5px;
 }
 .Content p {
   position: relative;
