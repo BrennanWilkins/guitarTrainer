@@ -89,22 +89,22 @@
 }
 .SettingsBtns button {
   width: 90px;
-  height: 40px;
+  padding: 10px 5px;
   margin: 10px 5px 15px;
   border-radius: 3px;
   font-weight: bold;
   cursor: pointer;
   outline: none;
+  text-align: center;
+  font-size: 13.5px;
 }
 .BtnSelected {
   background: #eee;
   border: 2px solid rgb(16, 30, 117);
-  text-align: center;
 }
 .BtnUnselected {
   background: #ddd;
   border: 2px solid #ddd;
-  text-align: center;
 }
 .Question {
   font-size: 20px;

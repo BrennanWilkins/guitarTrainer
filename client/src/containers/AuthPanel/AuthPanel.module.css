@@ -64,7 +64,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 27px;
+  padding: 4px 0;
 }
 .InputDiv input {
   border: 0;
@@ -79,10 +79,9 @@
   background: rgb(27, 56, 119);
   border: 0;
   border-radius: 3px;
-  padding: 10px 15px;
+  padding: 11px 15px;
   font-size: 16px;
   transition: background 300ms;
-  height: 40px;
 }
 .Content button:hover {
   transition: background 300ms;
