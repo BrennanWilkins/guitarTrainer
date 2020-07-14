@@ -9,7 +9,6 @@ import { personIcon, lockIcon } from '../../components/UI/UIIcons';
 import { validate } from '../../utils/authValidation';
 import { authInstance as axios, instance } from '../../axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import moment from 'moment';
 
 const AuthPanel = props => {
   const [email, setEmail] = useState('');
@@ -28,27 +27,27 @@ const AuthPanel = props => {
   const successHandler = (data) => {
     setLoading(false);
     instance.defaults.headers.common['x-auth-token'] = data.token;
-    const today = String(moment().format('L'));
+    const today = new Date();
     const newData = { ...data.stats };
-    if (data.stats.lastPlayed !== today) {
+    if (today.getTime() - new Date(data.stats.lastPlayed).getTime() >= 86400000) {
       newData.lastPlayed = today;
       newData.totIntCorrectToday = 0;
       newData.totNoteCorrectToday = 0;
       newData.totChordCorrectToday = 0;
       instance.put('stats/', newData).catch(err => {
-        console.log(err.response);
+        console.log(err);
       });
     }
     if (remember) {
       localStorage['token'] = data.token;
-      // expires in 30 days
-      localStorage['expirationDate'] = new Date(new Date().getTime() + 2592000000);
-      localStorage['expirationTime'] = '2592000000';
+      // expires in 7 days
+      localStorage['expirationDate'] = new Date(new Date().getTime() + 604800000);
+      localStorage['expirationTime'] = '604800000';
     } else {
-      // expires in 24hr
+      // expires in 3hr
       localStorage['token'] = data.token;
-      localStorage['expirationDate'] = new Date(new Date().getTime() + 86400000);
-      localStorage['expirationTime'] = '86400000';
+      localStorage['expirationDate'] = new Date(new Date().getTime() + 10800000);
+      localStorage['expirationTime'] = '10800000';
     }
     props.setStats(newData);
     props.setGoals(data.goals);
@@ -59,20 +58,22 @@ const AuthPanel = props => {
   const loginHandler = () => {
     setLoading(true);
     axios.post('login', { email, password, remember }).then(res => {
-      if (res.status !== 200) { return showErr(res.data.msg); }
       successHandler(res.data);
     }).catch(err => {
-      showErr(err.response.data.msg);
+      if (err.response) { return showErr(err.response.data.msg); }
+      showErr('There was an error logging in.');
+      console.log(err);
     });
   };
 
   const signupHandler = () => {
     setLoading(true);
     axios.post('signup', { email, password, remember }).then(res => {
-      if (res.status !== 200) { return showErr(res.data.msg); }
       successHandler(res.data);
     }).catch(err => {
-      showErr(err.response.data.msg);
+      if (err.response) { return showErr(err.response.data.msg); }
+      showErr('There was an error signing up.');
+      console.log(err);
     });
   };
 
@@ -122,7 +123,7 @@ const AuthPanel = props => {
             </div>
             <div className={classes.Remember}>
               <input type="checkbox" onChange={() => setRemember(prev => !prev)} />
-              <span>Remember me for 30 days</span>
+              <span>Remember me</span>
             </div>
             <div className={classes.ErrDiv}>
               <span className={err ? classes.ErrMsgShow : classes.ErrMsgHide}>

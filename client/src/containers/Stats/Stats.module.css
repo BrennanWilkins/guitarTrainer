@@ -117,7 +117,7 @@
   display: flex;
   justify-content: center;
 }
-.PracBtn button, .PracInfo button {
+.PracBtn button, .PracInfoBtn {
   border: 0;
   background: rgb(31, 67, 145, 0.8);
   transition: background 200ms;
@@ -135,7 +135,7 @@
   justify-content: center;
   position: relative;
 }
-.PracInfo button:hover, .PracBtn button:hover {
+.PracInfoBtn:hover, .PracBtn button:hover {
   background:  rgb(31, 67, 145);
   transition: background 150ms;
 }

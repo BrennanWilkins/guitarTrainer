@@ -3,7 +3,7 @@ import { instance as axios } from '../../axios';
 
 const updateGoals = (data) => {
   axios.put('goals/', { ...data }).catch(err => {
-    console.log(err.response);
+    console.log(err);
   });
 };
 

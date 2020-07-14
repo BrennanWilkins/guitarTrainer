@@ -4,7 +4,7 @@ import { instance as axios } from '../../axios';
 
 const updateStats = (data) => {
   axios.put('stats/', { ...data }).catch(err => {
-    console.log(err.response);
+    console.log(err);
   });
 };
 

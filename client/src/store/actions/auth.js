@@ -1,7 +1,6 @@
 import * as actionTypes from './actionTypes';
 import { instance } from '../../axios';
 import { reset, resetGoals, setStats, setGoals } from './index';
-import moment from 'moment';
 
 let expirationTimeout;
 
@@ -41,27 +40,28 @@ export const autoLogin = () => dispatch => {
   const newTime = new Date(localStorage['expirationDate']).getTime() - new Date().getTime();
   localStorage['expirationTime'] = newTime;
   instance.get('stats/').then(res => {
-    if (res.status !== 200) { return; }
-    const today = String(moment().format('L'));
+    const today = new Date();
     const newData = { ...res.data.stats };
-    if (res.data.stats.lastPlayed !== today) {
+    if (today.getTime() - new Date(res.data.stats.lastPlayed).getTime() >= 86400000) {
       newData.lastPlayed = today;
       newData.totIntCorrectToday = 0;
       newData.totNoteCorrectToday = 0;
       newData.totChordCorrectToday = 0;
       instance.put('stats/', newData).catch(err => {
-        return console.log(err);
+        console.log(err);
+        return dispatch(logout());
       });
     }
     instance.get('goals/').then(resp => {
-      if (res.status !== 200) { return; }
       dispatch(setGoals(resp.data.goals));
       dispatch(setStats(newData));
       dispatch(login());
     }).catch(err => {
       console.log(err);
-    })
+      return dispatch(logout());
+    });
   }).catch(err => {
     console.log(err);
+    return dispatch(logout());
   });
 };

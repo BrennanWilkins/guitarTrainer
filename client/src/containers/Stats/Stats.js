@@ -57,7 +57,7 @@ const Stats = props => {
         <button onClick={goToIntervalPrac}>Practice my weakest intervals</button>
       </div>
       <div className={classes.PracInfo}>
-        <button onClick={() => setShowInfoPanel(true)}>How does custom practice work?</button>
+        <button className={classes.PracInfoBtn} onClick={() => setShowInfoPanel(true)}>How does custom practice work?</button>
         <div className={showInfoPanel ? classes.InfoPanel : classes.HideInfoPanel}>
           <CloseBtn close={() => setShowInfoPanel(false)} />
           <p>
