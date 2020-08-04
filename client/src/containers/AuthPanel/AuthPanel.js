@@ -30,21 +30,23 @@ const AuthPanel = props => {
     const today = new Date();
     const newData = { ...data.stats };
     if (today.getTime() - new Date(data.stats.lastPlayed).getTime() >= 86400000) {
+      // update stats for the day if its a new day since last time played
       newData.lastPlayed = today;
       newData.totIntCorrectToday = 0;
       newData.totNoteCorrectToday = 0;
       newData.totChordCorrectToday = 0;
+      // update stats on server
       instance.put('stats/', newData).catch(err => {
         console.log(err);
       });
     }
     if (remember) {
       localStorage['token'] = data.token;
-      // expires in 7 days
+      // token expires in 7 days if remember me clicked
       localStorage['expirationDate'] = new Date(new Date().getTime() + 604800000);
       localStorage['expirationTime'] = '604800000';
     } else {
-      // expires in 3hr
+      // token expires in 3hr
       localStorage['token'] = data.token;
       localStorage['expirationDate'] = new Date(new Date().getTime() + 10800000);
       localStorage['expirationTime'] = '10800000';
@@ -78,6 +80,7 @@ const AuthPanel = props => {
   };
 
   const submitHandler = () => {
+    // validate login/signup form
     const res = validate(email, password);
     setErrMsg(res);
     res === '' ? setErr(false) : setErr(true);

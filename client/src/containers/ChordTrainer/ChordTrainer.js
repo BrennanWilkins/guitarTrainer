@@ -41,11 +41,13 @@ const ChordTrainer = props => {
   const settingsBackdrop = useRef();
 
   useEffect(() => {
+    // reset the current session on login/logout
     setSessionWrong(0);
     setSessionCorrect(0);
   }, [props.isAuth]);
 
   useEffect(() => {
+    // show goal reached panel if goal updated greater than current correct today
     if (props.totChordCorrect < props.chordGoal) {
       setShowGoalReached(false);
     }
@@ -82,6 +84,7 @@ const ChordTrainer = props => {
   };
 
   const repeatNotes = () => {
+    // pause all notes & replay them
     rootSound.pause();
     thirdSound.pause();
     fifthSound.pause();
@@ -96,6 +99,7 @@ const ChordTrainer = props => {
 
   const checkAnswer = (e) => {
     if (e.target.value === getNoteShorthand(rootNote) && selectedChord === chord) {
+      // correct answer
       rootSound.pause();
       thirdSound.pause();
       fifthSound.pause();
@@ -104,6 +108,7 @@ const ChordTrainer = props => {
       fifthSound.muted = true;
       props.incCorrect();
       if (props.chordGoal > 0 && props.totCorrect + 1 === props.chordGoal) {
+        // goal reached
         setShowGoalReached(true);
       }
       setSessionCorrect(prevCorrect => prevCorrect + 1);
@@ -114,6 +119,7 @@ const ChordTrainer = props => {
         gameLoop();
       }, 300);
     } else {
+      // wrong answer
       props.incWrong();
       setAnimWrong(true);
       setTimeout(() => {
@@ -125,6 +131,7 @@ const ChordTrainer = props => {
 
   const toggleChord = (e) => {
     const val = e.target.value;
+    // disable certain chords from being played
     if (disabledRoots.includes(val)) {
       setDisabledRoots(prevRoots => prevRoots.filter(root => root !== val));
       if (disabledRoots.length < 12) {
@@ -133,6 +140,7 @@ const ChordTrainer = props => {
       }
     } else {
       setDisabledRoots(prevRoots => prevRoots.concat([val]));
+      // have to have at least three notes activated
       if (disabledRoots.length > 9) {
         setShowSettingsErr(true);
         setSettingsErrMsg('You need to have at least two chords enabled.');

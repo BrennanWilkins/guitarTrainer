@@ -11,6 +11,7 @@ export const setAuthMode = (mode) => ({ type: actionTypes.SET_AUTH_MODE, mode })
 export const loginDispatch = () => ({ type: actionTypes.LOGIN });
 
 export const login = () => dispatch => {
+  // auto logout user when token expiration reached
   expirationTimeout = setTimeout(() => dispatch(logout()), Number(localStorage['expirationTime']));
   dispatch(loginDispatch());
 };
@@ -42,6 +43,7 @@ export const autoLogin = () => dispatch => {
   instance.get('stats/').then(res => {
     const today = new Date();
     const newData = { ...res.data.stats };
+    // if new day then reset current day's stats
     if (today.getTime() - new Date(res.data.stats.lastPlayed).getTime() >= 86400000) {
       newData.lastPlayed = today;
       newData.totIntCorrectToday = 0;

@@ -35,6 +35,7 @@ const NoteTrainer = props => {
   const settingsBackdrop = useRef();
 
   useEffect(() => {
+    // reset current session on login/logout
     setSessionWrong(0);
     setSessionCorrect(0);
   }, [props.isAuth]);
@@ -53,6 +54,7 @@ const NoteTrainer = props => {
   };
 
   const gameLoop = () => {
+    // get random note based on whether in practice mode or not
     const randNote = (
       props.pracMode ?
       getRandNotePracMode(disabledNotes, props.notesCorrect, props.notesWrong) :
@@ -67,6 +69,7 @@ const NoteTrainer = props => {
   };
 
   useEffect(() => {
+    // update whether goal reached panel can be shown when goal updated
     if (props.totNoteCorrect < props.noteGoal) {
       setShowGoalReached(false);
     }
@@ -74,6 +77,7 @@ const NoteTrainer = props => {
 
   const checkAnswer = (e) => {
     if (e.target.value === shortNote) {
+      // answer correct
       if (props.noteGoal > 0 && props.totNoteCorrect + 1 === props.noteGoal) {
         setShowGoalReached(true);
       }
@@ -86,6 +90,7 @@ const NoteTrainer = props => {
         gameLoop();
       }, 300);
     } else {
+      // answer wrong
       props.onWrongNote(shortNote);
       setAnimWrong(true);
       setTimeout(() => {
@@ -104,12 +109,14 @@ const NoteTrainer = props => {
   const toggleNote = (e) => {
     const val = e.target.value;
     if (disabledNotes.includes(val)) {
+      // activate note
       setDisabledNotes(prevNotes => prevNotes.filter(n => n !== val));
       if (disabledNotes.length < 12) {
         setShowSettingsErr(false);
         setSettingsErrMsg('');
       }
     } else {
+      // disable note
       setDisabledNotes(prevNotes => prevNotes.concat([val]));
       if (disabledNotes.length > 9) {
         setShowSettingsErr(true);

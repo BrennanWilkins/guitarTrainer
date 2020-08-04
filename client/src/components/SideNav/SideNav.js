@@ -11,6 +11,7 @@ const SideNav = props => {
   const closeHandler = () => {
     props.close();
     if (props.location.pathname !== props.history.location.pathname) {
+      // close sidenav when link clicked
       props.showPanel(false);
     }
   };

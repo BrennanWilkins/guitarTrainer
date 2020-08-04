@@ -38,15 +38,18 @@ const IntervalTrainer = props => {
   const settingsBackdrop = useRef();
 
   useEffect(() => {
+    // update current session on login/logout
     setSessionWrong(0);
     setSessionCorrect(0);
   }, [props.isAuth]);
 
   useEffect(() => {
+    // turn off practice mode when visited
     return () => props.setPracMode(false);
   }, []);
 
   useEffect(() => {
+    // if goal changed then update whether goal panel can show
     if (props.totIntCorrect < props.intGoal) {
       setShowGoalReached(false);
     }
@@ -64,8 +67,10 @@ const IntervalTrainer = props => {
   const gameLoop = () => {
     let root, other, interval;
     if (props.pracMode) {
+      // if in practice mode then generate practice intervals
       [root, other, interval] = generateIntervalPracMode(disabledIntervals, intervalType, props.intsCorrect, props.intsWrong);
     } else {
+      // else generate any intervals
       [root, other, interval] = generateInterval(disabledIntervals, intervalType);
     }
     const newRootSound = new Audio(`/assets/notes/${root}.mp3`);
@@ -77,11 +82,13 @@ const IntervalTrainer = props => {
     setOtherSound(newOtherSound);
     if (!volumeOn) { return; }
     newRootSound.play();
+    // pause before second note played
     setTimeout(() => newOtherSound.play(), 1700);
   };
 
   const checkAnswer = (e) => {
     if (e.target.value === interval) {
+      // answer correct, pause notes & play new interval
       rootSound.pause();
       otherSound.pause();
       rootSound.muted = true;
@@ -98,6 +105,7 @@ const IntervalTrainer = props => {
         gameLoop();
       }, 300);
     } else {
+      // answer wrong
       props.onWrongInterval(interval);
       setAnimWrong(true);
       setTimeout(() => {
@@ -108,6 +116,7 @@ const IntervalTrainer = props => {
   };
 
   const repeatNotes = () => {
+    // pause notes & replay them
     rootSound.pause();
     otherSound.pause();
     rootSound.currentTime = 0;
@@ -120,12 +129,14 @@ const IntervalTrainer = props => {
   const toggleInterval = (e) => {
     const val = e.target.value;
     if (disabledIntervals.includes(val)) {
+      // activate an interval
       setDisabledIntervals(prevInts => prevInts.filter(int => int !== val));
       if (disabledIntervals.length < 12) {
         setShowSettingsErr(false);
         setSettingsErrMsg('');
       }
     } else {
+      // disable an interval
       setDisabledIntervals(prevInts => prevInts.concat([val]));
       if (disabledIntervals.length > 9) {
         setShowSettingsErr(true);

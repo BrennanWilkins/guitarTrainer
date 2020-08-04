@@ -67,6 +67,7 @@ const SetGoalPanel = props => {
   };
 
   useEffect(() => {
+    // update goals when logged in/logout
     setIntVal(props.intGoal);
     setNoteVal(props.noteGoal);
     setChordVal(props.chordGoal);
