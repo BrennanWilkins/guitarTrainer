@@ -1,10 +1,11 @@
 import React from 'react';
 import classes from './GuitarIcon.module.css';
 import { Link } from 'react-router-dom';
+import { guitarIcon } from '../UI/UIIcons';
 
 const GuitarIcon = () => (
   <div className={classes.Icon}>
-    <img src="/assets/guitar.png" alt="" />
+    <span>{guitarIcon}</span>
     <Link to="/">Guitar Trainer</Link>
   </div>
 );
